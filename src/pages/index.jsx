@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPortfolioData } from '../actions';
-import Seo from '../components/seo';
+import Footer from '../components/footer';
 import Header from '../components/header';
 import Layout from '../components/layout';
+import Seo from '../components/seo';
 
 class IndexPage extends Component {
   componentDidMount() {
@@ -23,6 +24,7 @@ class IndexPage extends Component {
         <Layout>
           <h1>Portfolio!</h1>
         </Layout>
+        <Footer />
       </>
     );
   }

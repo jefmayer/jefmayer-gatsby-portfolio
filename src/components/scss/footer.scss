@@ -1,3 +1,6 @@
+@import 'base/variables';
+@import 'base/breakpoints';
+
 .footer {
   background: $black;
   position: relative;
@@ -223,29 +226,29 @@
       }
 
       .instagram-link {
-        background-image: url('/images/instagram-icon.svg');
+        background-image: url('../../images/instagram-icon.svg');
       }
 
       .strava-link {
-        background-image: url('/images/strava-icon.svg');
+        background-image: url('../../images/strava-icon.svg');
         background-size: 2.7rem 4rem;
       }
 
       .zwift-link {
-        background-image: url('/images/zwift-icon.svg');
+        background-image: url('../../images/zwift-icon.svg');
         background-size: 2.6rem 2.5rem;
       }
 
       .linkedin-link {
-        background-image: url('/images/linkedin-icon.svg');
+        background-image: url('../../images/linkedin-icon.svg');
       }
 
       .discogs-link {
-        background-image: url('/images/discogs-icon.svg');
+        background-image: url('../../images/discogs-icon.svg');
       }
 
       .github-link {
-        background-image: url('/images/github-icon.svg');
+        background-image: url('../../images/github-icon.svg');
       }
     }
   }
