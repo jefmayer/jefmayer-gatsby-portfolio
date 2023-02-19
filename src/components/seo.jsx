@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
@@ -38,9 +39,10 @@ function Seo({ description, title, children }) {
 }
 
 Seo.propTypes = {
-  children: PropTypes.shape,
+  children: PropTypes.any,
   description: PropTypes.string,
   title: PropTypes.string,
 };
 
 export default Seo;
+/* eslint-enable react/forbid-prop-types */

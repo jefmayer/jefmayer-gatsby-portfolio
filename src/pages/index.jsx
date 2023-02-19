@@ -2,16 +2,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPortfolioData } from '../actions';
+import { fetchSiteData } from '../actions';
+import { initScrollMagicController } from '../utils/scroll-magic';
+// import { initLoad } from '../modules/loaders/initial-asset-loader';
 import Footer from '../components/footer';
 import Header from '../components/header';
+import Intro from '../components/sections/intro';
 import Layout from '../components/layout';
 import Seo from '../components/seo';
 
 class IndexPage extends Component {
+  constructor(props) {
+    super(props);
+    initScrollMagicController();
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchPortfolioData('portfolio-data.json'));
+    dispatch(fetchSiteData('portfolio-data.json'));
+    // initLoad();
   }
 
   render() {
@@ -22,7 +31,7 @@ class IndexPage extends Component {
           data={data}
         />
         <Layout>
-          <h1>Portfolio!</h1>
+          <Intro />
         </Layout>
         <Footer />
       </>
@@ -36,15 +45,15 @@ export const Head = () => (
 
 IndexPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { portfolioData } = state;
+  const { siteData } = state;
   const {
     file,
     items: data,
-  } = portfolioData;
+  } = siteData;
   return {
     data,
     file,

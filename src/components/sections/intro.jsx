@@ -1,0 +1,105 @@
+import React, { Component } from 'react';
+import ScrollMagic from 'scrollmagic';
+import { TimelineLite } from 'gsap';
+import { getScrollMagicController } from '../../utils/scroll-magic';
+// import { hideMenu } from '../nav/menu';
+
+class Intro extends Component {
+  constructor(props) {
+    super(props);
+    this.loaderAnimate = this.loaderAnimate.bind(this);
+    this.animate = this.animate.bind(this);
+    this.triggerElement = '.project-animation-intro';
+  }
+
+  componentDidMount() {
+    this.loaderAnimate();
+  }
+
+  loaderAnimate() {
+    const { triggerElement } = this;
+    const controller = getScrollMagicController();
+    new ScrollMagic.Scene({
+      triggerElement,
+      duration: 1000,
+    }).setClassToggle(triggerElement, 'in-focus')
+      .setPin(`${triggerElement} .section-content`)
+      .addTo(controller);
+  }
+
+  animate() {
+    const { triggerElement } = this;
+    const controller = getScrollMagicController();
+    const timelines = {
+      introRotate: new TimelineLite()
+        .fromTo(`${triggerElement} .intro-borders`, 1, { rotation: 106, scaleX: 0.75 }, { rotation: 180, scaleX: 1 })
+        .fromTo(`${triggerElement} .scroll-indicator-animation`, { scale: 1, opacity: 1 }, { scale: 0, opacity: 0 }, 0.1),
+      introOutro: new TimelineLite()
+        .to(`${triggerElement} .intro-border-top`, 1, { y: '-50%' })
+        .to(`${triggerElement} .intro-border-bottom`, 1, { y: '50%' }, 0)
+        .to(`${triggerElement} .intro-inner-content`, 1, { scale: 0.75, opacity: 0 }, 0)
+        .to(`${triggerElement} .intro-borders`, 0.5, { scaleX: 0 }, 1)
+        .call(() => {
+          // hideMenu();
+        }, null, null, 2)
+        .to('.header', 1, { y: 0 }),
+    };
+
+    new ScrollMagic.Scene({
+      triggerElement,
+      duration: 300,
+      triggerHook: 0,
+    }).setTween(timelines.introRotate)
+      .addTo(controller);
+
+    new ScrollMagic.Scene({
+      triggerElement,
+      duration: 300,
+      offset: 800,
+    }).setTween(timelines.introOutro)
+      .addTo(controller);
+  }
+
+  render() {
+    //
+    return (
+      <section className="project-animation project-animation-intro">
+        <div className="fixed-bg" />
+        <div className="section-top-indicator" />
+        <div className="section-content">
+          <div className="content-wrapper">
+            <div className="intro-borders">
+              <div className="intro-border-top" />
+              <div className="intro-border-bottom" />
+            </div>
+            <div className="intro-content">
+              <div className="intro-inner-content">
+                <div>
+                  <div className="jef-logo" />
+                  <h1 className="intro-statement">
+                    <span className="highlight"> 👋 &nbsp;I create innovative solutions elevated by great design. </span>
+                    I&rsquo;ve collaborated with talented, multi-disciplined teams to develop engaging interactive experiences.
+                  </h1>
+                  <div className="scroll-indicator-animation-wrapper">
+                    <button type="button" className="scroll-indicator-animation scene-navigation-btn" data-scene-name="amplifyit" aria-label="Scroll to see my work!">
+                      <div className="center-fill" />
+                      <div className="indicator-arrow">
+                        <div className="center-line" />
+                        <div className="caret">
+                          <div className="bottom-left-line" />
+                          <div className="bottom-right-line" />
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}
+
+export default Intro;

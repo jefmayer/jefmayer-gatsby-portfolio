@@ -50,7 +50,11 @@ function Header({ data }) {
 }
 
 Header.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape({
+    client: PropTypes.string,
+    role: PropTypes.string,
+    title: PropTypes.string,
+  })).isRequired,
 };
 
 export default Header;

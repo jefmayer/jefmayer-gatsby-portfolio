@@ -1,19 +1,28 @@
+/* eslint-disable default-param-last */
 import { combineReducers } from 'redux';
 import {
-  REQUEST_PORTFOLIO_DATA,
-  RECEIVE_PORTFOLIO_DATA,
+  RECEIVE_SITE_DATA,
+  REQUEST_SITE_DATA,
+  HIDE_MENU,
+  // SET_ACTIVE_SECTION,
+  SHOW_MENU,
+  UPDATE_SITE_DATA,
 } from '../actions';
 
-const portfolioData = (state = {
+const siteData = (state = {
   items: [],
   file: '',
 }, action) => {
   switch (action.type) {
-    case REQUEST_PORTFOLIO_DATA:
+    case REQUEST_SITE_DATA:
       return {
         ...state,
       };
-    case RECEIVE_PORTFOLIO_DATA:
+    case UPDATE_SITE_DATA:
+      return {
+        ...state,
+      };
+    case RECEIVE_SITE_DATA:
       return {
         ...state,
         file: action.file,
@@ -25,8 +34,29 @@ const portfolioData = (state = {
   }
 };
 
+const menu = (state = {
+  isOpen: false,
+}, action) => {
+  switch (action.type) {
+    case SHOW_MENU:
+      return {
+        ...state,
+        isOpen: true,
+      };
+    case HIDE_MENU:
+      return {
+        ...state,
+        isOpen: false,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
-  portfolioData,
+  siteData,
+  menu,
 });
 
 export default rootReducer;
+/* eslint-enable default-param-last */
