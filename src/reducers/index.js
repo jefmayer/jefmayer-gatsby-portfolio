@@ -1,12 +1,12 @@
 /* eslint-disable default-param-last */
 import { combineReducers } from 'redux';
 import {
+  ADD_SECTION_IMAGES,
   RECEIVE_SITE_DATA,
   REQUEST_SITE_DATA,
   HIDE_MENU,
-  // SET_ACTIVE_SECTION,
+  SET_ACTIVE_SECTION,
   SHOW_MENU,
-  UPDATE_SITE_DATA,
 } from '../actions';
 
 const siteData = (state = {
@@ -18,16 +18,37 @@ const siteData = (state = {
       return {
         ...state,
       };
-    case UPDATE_SITE_DATA:
-      return {
-        ...state,
-      };
     case RECEIVE_SITE_DATA:
       return {
         ...state,
         file: action.file,
-        name: action.data.name,
-        items: action.data.sections,
+        items: action.data.sections.map((section) => ({
+          ...section,
+          allHiResAssetsLoaded: false,
+          allInitialAssetsLoaded: false,
+          assets: [],
+          hiResAsssets: [],
+          isActive: false,
+        })),
+      };
+    case ADD_SECTION_IMAGES:
+      return {
+        ...state,
+        items: state.items.map((section) => {
+          if (section.name === action.sectionName && !action.isHires) {
+            return {
+              ...section,
+              assets: action.data,
+            };
+          }
+          if (section.name === action.sectionName && action.isHires) {
+            return {
+              ...section,
+              hiResAsssets: action.data,
+            };
+          }
+          return section;
+        }),
       };
     default:
       return state;
@@ -53,9 +74,32 @@ const menu = (state = {
   }
 };
 
+export const showMenu = () => ({
+  type: SHOW_MENU,
+});
+
+export const hideMenu = () => ({
+  type: HIDE_MENU,
+});
+
+export const activeSection = (state = {
+  activeSection: '',
+}, action) => {
+  switch (action.type) {
+    case SET_ACTIVE_SECTION:
+      return {
+        ...state,
+        activeSection: action.data,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
-  siteData,
+  activeSection,
   menu,
+  siteData,
 });
 
 export default rootReducer;

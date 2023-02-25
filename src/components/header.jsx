@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-function Header({ data }) {
+function Header({ data, onMenuClick, onNavClick }) {
   return (
     <header className="header">
       <div className="header-logo" />
@@ -18,7 +18,7 @@ function Header({ data }) {
               } = section;
               return (
                 <React.Fragment key={name}>
-                  <button type="button" className="scene-navigation-btn" role="menuitem" data-scene-name={name}>
+                  <button type="button" className="scene-navigation-btn" role="menuitem" data-scene-name={name} onClick={onNavClick}>
                     <span className="heading-md">{client}</span>
                     <span className="body-regular">{title}</span>
                     <span className="heading-xs">Role</span>
@@ -30,7 +30,7 @@ function Header({ data }) {
           </div>
         </div>
         <div className="nav-menu-overlay" />
-        <button type="button" className="nav-menu-btn">
+        <button type="button" className="nav-menu-btn" onClick={onMenuClick}>
           <span className="nav-btn-dot nav-dot-top" />
           <span className="nav-btn-dot nav-dot-mid" />
           <span className="nav-btn-dot nav-dot-btm" />
@@ -55,6 +55,8 @@ Header.propTypes = {
     role: PropTypes.string,
     title: PropTypes.string,
   })).isRequired,
+  onMenuClick: PropTypes.func.isRequired,
+  onNavClick: PropTypes.func.isRequired,
 };
 
 export default Header;

@@ -1,16 +1,17 @@
+export const ADD_SECTION_IMAGES = 'ADD_SECTION_IMAGES';
+export const HIDE_MENU = 'HIDE_MENU';
 export const RECEIVE_SITE_DATA = 'RECEIVE_SITE_DATA';
 export const REQUEST_SITE_DATA = 'REQUEST_SITE_DATA';
-export const HIDE_MENU = 'HIDE_MENU';
+export const SET_ACTIVE_SECTION = 'SET_ACTIVE_SECTION';
 export const SHOW_MENU = 'SHOW_MENU';
-export const UPDATE_SITE_DATA = 'UPDATE_SITE_DATA';
 
 export const requestSiteData = () => ({
   type: REQUEST_SITE_DATA,
 });
 
-export const receiveSiteData = (json, file) => ({
+export const receiveSiteData = (data, file) => ({
   type: RECEIVE_SITE_DATA,
-  data: json,
+  data,
   file,
 });
 
@@ -21,9 +22,11 @@ export const fetchSiteData = (file) => dispatch => { /* eslint-disable-line arro
     .then((json) => dispatch(receiveSiteData(json, file)));
 };
 
-export const updateSiteData = (data) => ({
-  type: UPDATE_SITE_DATA,
+export const addSectionImages = (data, sectionName, isHires) => ({
+  type: ADD_SECTION_IMAGES,
   data,
+  isHires,
+  sectionName,
 });
 
 export const showMenu = () => ({
@@ -32,4 +35,9 @@ export const showMenu = () => ({
 
 export const hideMenu = () => ({
   type: HIDE_MENU,
+});
+
+export const setActiveSection = (data) => ({
+  type: SET_ACTIVE_SECTION,
+  data,
 });
