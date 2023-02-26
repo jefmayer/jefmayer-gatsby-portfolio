@@ -47,6 +47,7 @@ class IndexPage extends Component {
 
   render() {
     const { data } = this.props;
+
     return (
       <>
         <Header
@@ -56,7 +57,10 @@ class IndexPage extends Component {
         />
         <Layout>
           <Intro />
-          <AmplifyIt />
+          {data.length > 0
+          && (
+            <AmplifyIt />
+          )}
         </Layout>
         <Footer />
       </>

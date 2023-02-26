@@ -19,13 +19,11 @@ class AmplifyIt extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    setTimeout(() => {
-      dispatch(addSectionImages(
-        this.sectionImages,
-        this.sectionName,
-        false,
-      ));
-    }, 2000);
+    dispatch(addSectionImages(
+      this.sectionImages,
+      this.sectionName,
+      false,
+    ));
   }
 
   animate() {
