@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-function Header({ data, onMenuClick, onNavClick }) {
+function Header({ activeSectionId, data, onMenuClick, onNavClick }) {
   return (
     <header className="header">
       <div className="header-logo" />
@@ -18,7 +18,7 @@ function Header({ data, onMenuClick, onNavClick }) {
               } = section;
               return (
                 <React.Fragment key={id}>
-                  <button type="button" className="scene-navigation-btn" role="menuitem" data-scene-name={id} onClick={onNavClick}>
+                  <button type="button" className={`scene-navigation-btn ${activeSectionId === id ? 'active' : ''}`} role="menuitem" data-scene-name={id} onClick={onNavClick}>
                     <span className="heading-md">{client}</span>
                     <span className="body-regular">{title}</span>
                     <span className="heading-xs">Role</span>
@@ -50,6 +50,7 @@ function Header({ data, onMenuClick, onNavClick }) {
 }
 
 Header.propTypes = {
+  activeSectionId: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.shape({
     client: PropTypes.string,
     id: PropTypes.string,

@@ -11,7 +11,7 @@ class SiteImage extends Component {
     const {
       data,
       isLoaded,
-      sectionName,
+      sectionId,
     } = this.props;
     const {
       alt,
@@ -26,7 +26,7 @@ class SiteImage extends Component {
           && (
             <div
               className="add-site-img"
-              data-section={sectionName}
+              data-section={sectionId}
               data-hires-src={hiresSrc}
               data-src={src}
               data-alt={alt}
@@ -44,7 +44,7 @@ class SiteImage extends Component {
 SiteImage.propTypes = {
   data: PropTypes.shape(),
   isLoaded: PropTypes.bool,
-  sectionName: PropTypes.string.isRequired,
+  sectionId: PropTypes.string.isRequired,
   sectionImages: PropTypes.arrayOf(PropTypes.shape),
 };
 

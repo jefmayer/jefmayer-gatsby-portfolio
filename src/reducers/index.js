@@ -34,7 +34,7 @@ const siteData = (state = {
       return {
         ...state,
         items: state.items.map((section) => {
-          if (section.name === action.sectionName && !action.isHires) {
+          if (section.id === action.sectionId) {
             return {
               ...section,
               siteImages: action.data,
@@ -76,13 +76,13 @@ export const hideMenu = () => ({
 });
 
 export const activeSection = (state = {
-  activeSection: '',
+  id: '',
 }, action) => {
   switch (action.type) {
     case SET_ACTIVE_SECTION:
       return {
         ...state,
-        activeSection: action.data,
+        id: action.id,
       };
     default:
       return state;

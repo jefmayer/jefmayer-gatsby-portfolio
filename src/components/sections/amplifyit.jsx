@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
+import { getScrollObserver } from '../../utils/browser-scroll';
 import { addSectionImages } from '../../actions';
 import SiteImage from '../site-image';
 
@@ -14,16 +15,19 @@ class AmplifyIt extends Component {
     this.animate = this.animate.bind(this);
     this.getImageDataById = this.getImageDataById.bind(this);
     this.triggerElement = '.project-animation-amplifyit';
-    this.sectionName = 'amplifyit';
+    this.sectionId = 'amplifyit';
+    this.animationRef = React.createRef();
     this.sectionImages = [];
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const observer = getScrollObserver();
+    const el = this.animationRef.current;
+    observer.observe(el);
     dispatch(addSectionImages(
       this.sectionImages,
-      this.sectionName,
-      false,
+      this.sectionId,
     ));
   }
 
@@ -86,7 +90,7 @@ class AmplifyIt extends Component {
   render() {
     const {
       sectionImages,
-      sectionName,
+      sectionId,
     } = this;
     const { data } = this.props;
     const {
@@ -97,7 +101,7 @@ class AmplifyIt extends Component {
     } = data;
     return (
       <>
-        <section className="project-animation project-animation-amplifyit">
+        <section className="project-animation project-animation-amplifyit" ref={this.animationRef}>
           <div className="fixed-bg" />
           <div className="section-top-indicator" />
           <div className="section-content">
@@ -107,47 +111,47 @@ class AmplifyIt extends Component {
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-l')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-m')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-r')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-l')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-m')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-r')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-l')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-m')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-r')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                 </div>
               </div>
@@ -155,24 +159,24 @@ class AmplifyIt extends Component {
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler')}
                   sectionImages={sectionImages}
-                  sectionName={sectionName}
+                  sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler-shadow')}
                   sectionImages={sectionImages}
-                  sectionName={sectionName}
+                  sectionId={sectionId}
                 />
               </div>
               <div className="mixing-board-wrapper">
                 <SiteImage
                   data={this.getImageDataById('mixing-board')}
                   sectionImages={sectionImages}
-                  sectionName={sectionName}
+                  sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('mixing-board-shadow')}
                   sectionImages={sectionImages}
-                  sectionName={sectionName}
+                  sectionId={sectionId}
                 />
               </div>
               <div className="beats-headphones-wrapper">
@@ -180,12 +184,12 @@ class AmplifyIt extends Component {
                   <SiteImage
                     data={this.getImageDataById('beats-headphones')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('beats-headphones-shadow')}
                     sectionImages={sectionImages}
-                    sectionName={sectionName}
+                    sectionId={sectionId}
                   />
                 </div>
               </div>

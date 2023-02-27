@@ -1,39 +1,31 @@
-import { addIntroLoadAnimation, addSectionAnimations } from '../sections/index';
 import {
-  getActiveSectionName,
-  getSiteData,
-  updateSectionData,
-  updateSiteData,
-} from '../../api/state';
-import hiresAssetLoader from './hires-asset-loader';
+  disableScroll,
+  enableScroll,
+} from '../../utils/browser-scroll';
+// import hiresAssetLoader from './hires-asset-loader';
 
-const html = document.querySelector('html');
+let updateSiteData = null;
+let siteData = null;
+const getActiveSectionName = () => (
+  ''
+);
 const body = document.querySelector('body');
 const bgLoaderBar = document.querySelector('.background-loader-progress-bar');
 const bgLoaderWrapper = document.querySelector('.background-loader-wrapper');
 const initLoadingBars = document.querySelector('.project-animation-intro .intro-borders');
-const sectionLoader = document.querySelector('.section-loader-animation');
 
-const disableScroll = () => {
-  // console.log('disableScroll');
-  html.classList.add('noscroll');
-  sectionLoader.classList.add('animate-in');
-  setTimeout(() => {
-    sectionLoader.classList.add('animate-loop');
-  }, 300);
+const setSiteData = (data) => {
+  siteData = data;
 };
 
-const enableScroll = () => {
-  // console.log('enableScroll');
-  html.classList.remove('noscroll');
-  sectionLoader.classList.remove('animate-in');
-  sectionLoader.classList.remove('animate-loop');
-};
+const getSiteData = () => (
+  siteData
+);
 
 const isSectionAssetLoadComplete = (data, name) => (
   data
-    .find(section => section.name === name)
-    .assets.filter(asset => !asset.isLoaded)
+    .find((section) => section.name === name)
+    .assets.filter((asset) => !asset.isLoaded)
     .length === 0
 );
 
@@ -43,8 +35,8 @@ const getNextAssetInQueue = () => {
   const { selectedSection, sections } = data;
   // If section specified, get that section's assets
   if (selectedSection !== '') {
-    const nextAssetToLoad = sections.find(section => section.name === selectedSection)
-      .assets.find(asset => !asset.isLoaded && !asset.loadStarted);
+    const nextAssetToLoad = sections.find((section) => section.name === selectedSection)
+      .assets.find((asset) => !asset.isLoaded && !asset.loadStarted);
     // If there are still assets to load in that section, load,
     // otherwise return to load queue
     if (nextAssetToLoad) {
@@ -55,9 +47,9 @@ const getNextAssetInQueue = () => {
     enableScroll();
   }
   return sections
-    .map(section => section.assets)
+    .map((section) => section.assets)
     .reduce((a, b) => a.concat(b), [])
-    .find(asset => !asset.isLoaded && !asset.loadStarted);
+    .find((asset) => !asset.isLoaded && !asset.loadStarted);
 };
 
 const removeSectionEventHandlers = (assets) => {
@@ -67,32 +59,32 @@ const removeSectionEventHandlers = (assets) => {
   });
 };
 
-const getAssetsLoaded = data => (
+const getAssetsLoaded = (data) => (
   data
-    .map(section => section.assets)
+    .map((section) => section.assets)
     .reduce((a, b) => a.concat(b), [])
-    .filter(asset => asset.isLoaded)
+    .filter((asset) => asset.isLoaded)
     .length
 );
 
-const getAssetsTotal = data => (
+const getAssetsTotal = (data) => (
   data
-    .map(section => section.assets)
+    .map((section) => section.assets)
     .reduce((a, b) => a.concat(b), [])
     .length
 );
 
 const getInitialAssetsLoaded = (data, sectionName) => (
   data
-    .find(section => section.name === sectionName)
+    .find((section) => section.name === sectionName)
     .assets
-    .filter(asset => asset.isLoaded)
+    .filter((asset) => asset.isLoaded)
     .length
 );
 
 const getInitialAssetsTotal = (data, sectionName) => (
   data
-    .find(section => section.name === sectionName)
+    .find((section) => section.name === sectionName)
     .assets
     .length
 );
@@ -100,12 +92,12 @@ const getInitialAssetsTotal = (data, sectionName) => (
 const addHiResAssets = (data) => {
   const assetList = document.querySelectorAll('.site-asset');
   const hiResAsssets = [...assetList]
-    .filter(asset => asset.getAttribute('data-section') === data.name && asset.getAttribute('data-hires-src'))
-    .map(element => ({
+    .filter((asset) => asset.getAttribute('data-section') === data.name && asset.getAttribute('data-hires-src'))
+    .map((element) => ({
       element,
       isLoaded: false,
     }));
-  updateSectionData({
+  updateSiteData({
     name: data.name,
     hiResAsssets,
   });
@@ -129,7 +121,7 @@ const onInitialLoadComplete = () => {
   setTimeout(() => {
     body.classList.remove('site-loaded');
     scrollIndicator.classList.add('animate-loop');
-    addSectionAnimations();
+    // Set preloadComplete state to true
   }, 2000);
 
   setTimeout(() => {
@@ -150,8 +142,8 @@ const updateLoad = () => {
     return;
   }
   if (
-    (!activeSection.allInitialAssetsLoaded && selectedSection === '') ||
-    (!activeSection.allInitialAssetsLoaded && selectedSection === activeSection.name)
+    (!activeSection.allInitialAssetsLoaded && selectedSection === '')
+    || (!activeSection.allInitialAssetsLoaded && selectedSection === activeSection.name)
   ) {
     disableScroll();
   } else {
@@ -187,18 +179,11 @@ const update = () => {
     if (isComplete && !section.allInitialAssetsLoaded) {
       // console.log(`${section.name}, isComplete: ${isComplete}`);
       removeSectionEventHandlers(section.assets);
-      updateSectionData({
+      updateSiteData({
         allInitialAssetsLoaded: true,
         name: section.name,
       });
       addHiResAssets(section);
-      // Start background load of hi-res image assets, if any
-      hiresAssetLoader(section, () => {
-        updateSectionData({
-          allHiResAssetsLoaded: true,
-          name: section.name,
-        });
-      });
       updateLoad();
       if (index === 0) {
         onInitialLoadComplete();
@@ -211,8 +196,14 @@ const update = () => {
   }
 };
 
-const initLoad = () => {
-  addIntroLoadAnimation();
+const initLoad = (options) => {
+  const {
+    // activeSectionId,
+    data,
+    onUpdate,
+  } = options;
+  updateSiteData = onUpdate;
+  setSiteData(data);
   // Multi-threaded loader
   update();
   update();

@@ -22,11 +22,10 @@ export const fetchSiteData = (file) => dispatch => { /* eslint-disable-line arro
     .then((json) => dispatch(receiveSiteData(json, file)));
 };
 
-export const addSectionImages = (data, sectionName, isHires) => ({
+export const addSectionImages = (data, sectionId) => ({
   type: ADD_SECTION_IMAGES,
   data,
-  isHires,
-  sectionName,
+  sectionId,
 });
 
 export const showMenu = () => ({
@@ -37,7 +36,7 @@ export const hideMenu = () => ({
   type: HIDE_MENU,
 });
 
-export const setActiveSection = (data) => ({
+export const setActiveSection = (id) => ({
   type: SET_ACTIVE_SECTION,
-  data,
+  id,
 });

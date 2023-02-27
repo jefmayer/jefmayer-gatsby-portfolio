@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
+import { getScrollObserver } from '../../utils/browser-scroll';
 // import { hideMenu } from '../nav/menu';
 
 class Intro extends Component {
@@ -10,9 +11,13 @@ class Intro extends Component {
     this.loaderAnimate = this.loaderAnimate.bind(this);
     this.animate = this.animate.bind(this);
     this.triggerElement = '.project-animation-intro';
+    this.animationRef = React.createRef();
   }
 
   componentDidMount() {
+    const observer = getScrollObserver();
+    const el = this.animationRef.current;
+    observer.observe(el);
     this.loaderAnimate();
   }
 
@@ -63,7 +68,7 @@ class Intro extends Component {
   render() {
     //
     return (
-      <section className="project-animation project-animation-intro">
+      <section className="project-animation project-animation-intro" ref={this.animationRef}>
         <div className="fixed-bg" />
         <div className="section-top-indicator" />
         <div className="section-content">
