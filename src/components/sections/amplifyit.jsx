@@ -6,12 +6,13 @@ import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { addSectionImages } from '../../actions';
-import PreloadImage from '../preload-image';
+import SiteImage from '../site-image';
 
 class AmplifyIt extends Component {
   constructor(props) {
     super(props);
     this.animate = this.animate.bind(this);
+    this.getImageDataById = this.getImageDataById.bind(this);
     this.triggerElement = '.project-animation-amplifyit';
     this.sectionName = 'amplifyit';
     this.sectionImages = [];
@@ -24,6 +25,12 @@ class AmplifyIt extends Component {
       this.sectionName,
       false,
     ));
+  }
+
+  getImageDataById(id) {
+    const { data } = this.props;
+    const { assets } = data;
+    return assets.find((asset) => asset.id === id);
   }
 
   animate() {
@@ -77,162 +84,143 @@ class AmplifyIt extends Component {
   }
 
   render() {
-    const { sectionName, sectionImages } = this;
+    const {
+      sectionImages,
+      sectionName,
+    } = this;
+    const { data } = this.props;
+    const {
+      overview,
+      projectTitlePart1,
+      projectTitlePart2,
+      solution,
+    } = data;
     return (
-      <section className="project-animation project-animation-amplifyit">
-        <div className="fixed-bg" />
-        <div className="section-top-indicator" />
-        <div className="section-content">
-          <div className="content-wrapper">
-            <div className="video-grid-wrapper">
-              <div className="video-grid">
-                <div className="video-grid-item video-grid-t-l">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-t-l.gif"
-                    section={sectionName}
+      <>
+        <section className="project-animation project-animation-amplifyit">
+          <div className="fixed-bg" />
+          <div className="section-top-indicator" />
+          <div className="section-content">
+            <div className="content-wrapper">
+              <div className="video-grid-wrapper">
+                <div className="video-grid">
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-t-l')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-t-l.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-t-m">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-t-m.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-t-m')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-t-m.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-t-r">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-t-r.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-t-r')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-t-r.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-m-l">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-m-l.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-m-l')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-m-l.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-m-m">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-m-m.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-m-m')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-m-m.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-m-r">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-m-r.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-m-r')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-m-r.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-b-l">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-b-l.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-b-l')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-b-l.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-b-m">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-b-m.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-b-m')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-b-m.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="video-grid-item video-grid-b-r">
-                  <PreloadImage
-                    alt=""
-                    hiresSrc="images/amplifyit/a-video-grid-b-r.gif"
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('video-grid-b-r')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/video-grid-b-r.png"
+                    sectionName={sectionName}
                   />
                 </div>
               </div>
-            </div>
-            <div className="tablet-sampler-wrapper">
-              <div className="tablet-sampler">
-                <PreloadImage
-                  alt=""
-                  section={sectionName}
+              <div className="tablet-sampler-wrapper">
+                <SiteImage
+                  data={this.getImageDataById('tablet-sampler')}
                   sectionImages={sectionImages}
-                  src="images/amplifyit/tablet-sampler.png"
+                  sectionName={sectionName}
+                />
+                <SiteImage
+                  data={this.getImageDataById('tablet-sampler-shadow')}
+                  sectionImages={sectionImages}
+                  sectionName={sectionName}
                 />
               </div>
-              <div className="tablet-sampler-shadow">
-                <PreloadImage
-                  alt=""
-                  section={sectionName}
+              <div className="mixing-board-wrapper">
+                <SiteImage
+                  data={this.getImageDataById('mixing-board')}
                   sectionImages={sectionImages}
-                  src="images/amplifyit/tablet-sampler-shadow.png"
+                  sectionName={sectionName}
+                />
+                <SiteImage
+                  data={this.getImageDataById('mixing-board-shadow')}
+                  sectionImages={sectionImages}
+                  sectionName={sectionName}
                 />
               </div>
-            </div>
-            <div className="mixing-board-wrapper">
-              <div className="mixing-board">
-                <PreloadImage
-                  alt=""
-                  section={sectionName}
-                  sectionImages={sectionImages}
-                  src="images/amplifyit/mixing-board.png"
-                />
-              </div>
-              <div className="mixing-board-shadow">
-                <PreloadImage
-                  alt=""
-                  section={sectionName}
-                  sectionImages={sectionImages}
-                  src="images/amplifyit/mixing-board-shadow.png"
-                />
-              </div>
-            </div>
-            <div className="beats-headphones-wrapper">
-              <div>
-                <div className="beats-headphones">
-                  <PreloadImage
-                    alt=""
-                    section={sectionName}
+              <div className="beats-headphones-wrapper">
+                <div>
+                  <SiteImage
+                    data={this.getImageDataById('beats-headphones')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/beats-headphones.png"
+                    sectionName={sectionName}
                   />
-                </div>
-                <div className="beats-headphones-shadow">
-                  <PreloadImage
-                    alt=""
-                    section={sectionName}
+                  <SiteImage
+                    data={this.getImageDataById('beats-headphones-shadow')}
                     sectionImages={sectionImages}
-                    src="images/amplifyit/beats-headphones-shadow.png"
+                    sectionName={sectionName}
                   />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+        <section className="project-details project-details-amplifyit">
+          <div className="project-details-inner">
+            <div className="project-title">
+              <div className="project-logo verizon-logo" />
+              <h2 className="heading-lg">
+                <strong>
+                  {projectTitlePart1}
+                  &nbsp;
+                </strong>
+                {projectTitlePart2}
+              </h2>
+            </div>
+            <div className="project-overview">
+              <h3 className="heading-sm">Overview</h3>
+              <p className="body-regular">{overview}</p>
+            </div>
+            <div className="project-solution">
+              <h3 className="heading-sm">Solution</h3>
+              <p className="body-regular">{solution}</p>
+            </div>
+          </div>
+        </section>
+      </>
     );
   }
 }
 
 AmplifyIt.propTypes = {
+  data: PropTypes.shape(),
   dispatch: PropTypes.func.isRequired,
 };
 

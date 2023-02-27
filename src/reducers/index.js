@@ -26,9 +26,8 @@ const siteData = (state = {
           ...section,
           allHiResAssetsLoaded: false,
           allInitialAssetsLoaded: false,
-          assets: [],
-          hiResAsssets: [],
           isActive: false,
+          siteImages: [],
         })),
       };
     case ADD_SECTION_IMAGES:
@@ -38,13 +37,7 @@ const siteData = (state = {
           if (section.name === action.sectionName && !action.isHires) {
             return {
               ...section,
-              assets: action.data,
-            };
-          }
-          if (section.name === action.sectionName && action.isHires) {
-            return {
-              ...section,
-              hiResAsssets: action.data,
+              siteImages: action.data,
             };
           }
           return section;

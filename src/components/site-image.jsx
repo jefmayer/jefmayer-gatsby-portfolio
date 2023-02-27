@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class PreloadImage extends Component {
+class SiteImage extends Component {
   componentDidMount() {
     const { sectionImages } = this.props;
     sectionImages.push(this);
@@ -9,19 +9,24 @@ class PreloadImage extends Component {
 
   render() {
     const {
-      alt,
-      hiresSrc,
+      data,
       isLoaded,
-      section,
-      src,
+      sectionName,
     } = this.props;
+    const {
+      alt,
+      css,
+      hiresSrc,
+      id,
+      src,
+    } = data;
     return (
-      <>
+      <div className={`${id} ${css}`}>
         {!isLoaded
           && (
             <div
               className="add-site-img"
-              data-section={section}
+              data-section={sectionName}
               data-hires-src={hiresSrc}
               data-src={src}
               data-alt={alt}
@@ -31,18 +36,16 @@ class PreloadImage extends Component {
           && (
             <img src={src} alt={alt} />
           )}
-      </>
+      </div>
     );
   }
 }
 
-PreloadImage.propTypes = {
-  alt: PropTypes.string,
-  hiresSrc: PropTypes.string,
+SiteImage.propTypes = {
+  data: PropTypes.shape(),
   isLoaded: PropTypes.bool,
-  section: PropTypes.string.isRequired,
+  sectionName: PropTypes.string.isRequired,
   sectionImages: PropTypes.arrayOf(PropTypes.shape),
-  src: PropTypes.string.isRequired,
 };
 
-export default PreloadImage;
+export default SiteImage;

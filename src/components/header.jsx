@@ -12,13 +12,13 @@ function Header({ data, onMenuClick, onNavClick }) {
             {data.map((section) => {
               const {
                 client,
-                name,
+                id,
                 role,
                 title,
               } = section;
               return (
-                <React.Fragment key={name}>
-                  <button type="button" className="scene-navigation-btn" role="menuitem" data-scene-name={name} onClick={onNavClick}>
+                <React.Fragment key={id}>
+                  <button type="button" className="scene-navigation-btn" role="menuitem" data-scene-name={id} onClick={onNavClick}>
                     <span className="heading-md">{client}</span>
                     <span className="body-regular">{title}</span>
                     <span className="heading-xs">Role</span>
@@ -52,6 +52,7 @@ function Header({ data, onMenuClick, onNavClick }) {
 Header.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     client: PropTypes.string,
+    id: PropTypes.string,
     role: PropTypes.string,
     title: PropTypes.string,
   })).isRequired,

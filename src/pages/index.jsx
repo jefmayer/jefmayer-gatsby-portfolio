@@ -22,13 +22,13 @@ class IndexPage extends Component {
     super(props);
     this.onMenuClick = this.onMenuClick.bind(this);
     this.onNavClick = this.onNavClick.bind(this);
+    this.getSectionById = this.getSectionById.bind(this);
     initScrollMagicController();
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchSiteData('portfolio-data.json'));
-    // initLoad();
   }
 
   onMenuClick() {
@@ -45,9 +45,15 @@ class IndexPage extends Component {
     dispatch(setActiveSection(sectionName));
   }
 
+  getSectionById(id) {
+    const { data } = this.props;
+    return data.find((section) => section.id === id);
+  }
+
   render() {
     const { data } = this.props;
-
+    // If data.length > 0, run initLoad
+    // initLoad();
     return (
       <>
         <Header
@@ -59,7 +65,9 @@ class IndexPage extends Component {
           <Intro />
           {data.length > 0
           && (
-            <AmplifyIt />
+            <AmplifyIt
+              data={this.getSectionById('amplifyit')}
+            />
           )}
         </Layout>
         <Footer />

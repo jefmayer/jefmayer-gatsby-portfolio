@@ -1,0 +1,120 @@
+{
+  "sections": [
+    {
+      "assets": [
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-t-l",
+          "hiresSrc": "images/amplifyit/a-video-grid-t-l.gif",
+          "src": "images/amplifyit/video-grid-t-l.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-t-m",
+          "hiresSrc": "images/amplifyit/a-video-grid-t-m.gif",
+          "src": "images/amplifyit/video-grid-t-m.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-t-r",
+          "hiresSrc": "images/amplifyit/a-video-grid-t-r.gif",
+          "src": "images/amplifyit/video-grid-t-r.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-m-l",
+          "hiresSrc": "images/amplifyit/a-video-grid-m-l.gif",
+          "src": "images/amplifyit/video-grid-m-l.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-m-m",
+          "hiresSrc": "images/amplifyit/a-video-grid-m-m.gif",
+          "src": "images/amplifyit/video-grid-m-m.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-m-r",
+          "hiresSrc": "images/amplifyit/a-video-grid-m-r.gif",
+          "src": "images/amplifyit/video-grid-m-r.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-b-l",
+          "hiresSrc": "images/amplifyit/a-video-grid-b-l.gif",
+          "src": "images/amplifyit/video-grid-b-l.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-b-m",
+          "hiresSrc": "images/amplifyit/a-video-grid-b-m.gif",
+          "src": "images/amplifyit/video-grid-b-m.png"
+        },
+        {
+          "alt": "",
+          "css": "video-grid-item",
+          "id": "video-grid-b-r",
+          "hiresSrc": "images/amplifyit/a-video-grid-b-r.gif",
+          "src": "images/amplifyit/video-grid-b-r.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "tablet-sampler",
+          "hiresSrc": "",
+          "src": "images/amplifyit/tablet-sampler.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "tablet-sampler-shadow",
+          "hiresSrc": "",
+          "src": "images/amplifyit/tablet-sampler-shadow.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "mixing-board",
+          "hiresSrc": "",
+          "src": "images/amplifyit/mixing-board.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "mixing-board-shadow",
+          "hiresSrc": "",
+          "src": "images/amplifyit/mixing-board-shadow.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "beats-headphones",
+          "hiresSrc": "",
+          "src": "images/amplifyit/beats-headphones.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "beats-headphones-shadow",
+          "hiresSrc": "",
+          "src": "images/amplifyit/beats-headphones-shadow.png"
+        }
+      ],
+      "id": "amplifyit",
+      "overview": "The in-store experience showcased the connectivity of the new Samsung Galaxy Tab and Beats headphones. Several audio and visual components needed to be quickly fabricated and programmed for the grand opening of the Verizon Michigan Avenue flagship store.",
+      "projectTitlePart1": "AmplifyIt",
+      "projectTitlePart2": "In-store Experience",
+      "role": "Lead Developer",
+      "solution": "Our team created a custom sampler app and a 9-channel mixing board guests used to personalize their mixes. Layering samples and adjusting levels altered the playback of musician videos on a massive 9-screen display. Once finished, mixes were shared to an online playlist.",
+      "title": "AmplifyIt In-store Experience"
+    }
+  ]
+}
