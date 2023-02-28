@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
-import { addSectionImages } from '../../actions';
 import SiteImage from '../site-image';
 
 class AmplifyIt extends Component {
@@ -17,18 +14,13 @@ class AmplifyIt extends Component {
     this.triggerElement = '.project-animation-amplifyit';
     this.sectionId = 'amplifyit';
     this.animationRef = React.createRef();
-    this.sectionImages = [];
+    this.initAnimate = false;
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
     const observer = getScrollObserver();
     const el = this.animationRef.current;
     observer.observe(el);
-    dispatch(addSectionImages(
-      this.sectionImages,
-      this.sectionId,
-    ));
   }
 
   getImageDataById(id) {
@@ -64,7 +56,7 @@ class AmplifyIt extends Component {
     new ScrollMagic.Scene({
       triggerElement,
       duration: 1500,
-    }).setclassToggle(triggerElement, 'in-focus')
+    }).setClassToggle(triggerElement, 'in-focus')
       .addTo(controller);
 
     new ScrollMagic.Scene({
@@ -89,16 +81,22 @@ class AmplifyIt extends Component {
 
   render() {
     const {
-      sectionImages,
       sectionId,
     } = this;
-    const { data } = this.props;
+    const {
+      assetPreloadComplete,
+      data,
+    } = this.props;
     const {
       overview,
       projectTitlePart1,
       projectTitlePart2,
       solution,
     } = data;
+    if (assetPreloadComplete && !this.initAnimate) {
+      this.initAnimate = true;
+      this.animate();
+    }
     return (
       <>
         <section className="project-animation project-animation-amplifyit" ref={this.animationRef}>
@@ -110,47 +108,38 @@ class AmplifyIt extends Component {
                 <div className="video-grid">
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-l')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-m')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-r')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-l')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-m')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-r')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-l')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-m')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-r')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                 </div>
@@ -158,24 +147,20 @@ class AmplifyIt extends Component {
               <div className="tablet-sampler-wrapper">
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler')}
-                  sectionImages={sectionImages}
                   sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler-shadow')}
-                  sectionImages={sectionImages}
                   sectionId={sectionId}
                 />
               </div>
               <div className="mixing-board-wrapper">
                 <SiteImage
                   data={this.getImageDataById('mixing-board')}
-                  sectionImages={sectionImages}
                   sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('mixing-board-shadow')}
-                  sectionImages={sectionImages}
                   sectionId={sectionId}
                 />
               </div>
@@ -183,12 +168,10 @@ class AmplifyIt extends Component {
                 <div>
                   <SiteImage
                     data={this.getImageDataById('beats-headphones')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('beats-headphones-shadow')}
-                    sectionImages={sectionImages}
                     sectionId={sectionId}
                   />
                 </div>
@@ -224,13 +207,8 @@ class AmplifyIt extends Component {
 }
 
 AmplifyIt.propTypes = {
+  assetPreloadComplete: PropTypes.bool.isRequired,
   data: PropTypes.shape(),
-  dispatch: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatch,
-  ...bindActionCreators({ addSectionImages }, dispatch),
-});
-
-export default connect(mapDispatchToProps)(AmplifyIt);
+export default AmplifyIt;

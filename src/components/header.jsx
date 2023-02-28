@@ -1,6 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
+// Need to add logic to set offsetTop of .nav-highlight
+
 function Header({ activeSectionId, data, onMenuClick, onNavClick }) {
   return (
     <header className="header">

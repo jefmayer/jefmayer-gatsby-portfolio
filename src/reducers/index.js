@@ -1,7 +1,8 @@
 /* eslint-disable default-param-last */
 import { combineReducers } from 'redux';
 import {
-  ADD_SECTION_IMAGES,
+  ASSET_LOAD_COMPLETE,
+  ASSET_PRELOAD_COMPLETE,
   RECEIVE_SITE_DATA,
   REQUEST_SITE_DATA,
   HIDE_MENU,
@@ -22,26 +23,7 @@ const siteData = (state = {
       return {
         ...state,
         file: action.file,
-        items: action.data.sections.map((section) => ({
-          ...section,
-          allHiResAssetsLoaded: false,
-          allInitialAssetsLoaded: false,
-          isActive: false,
-          siteImages: [],
-        })),
-      };
-    case ADD_SECTION_IMAGES:
-      return {
-        ...state,
-        items: state.items.map((section) => {
-          if (section.id === action.sectionId) {
-            return {
-              ...section,
-              siteImages: action.data,
-            };
-          }
-          return section;
-        }),
+        items: action.data.sections,
       };
     default:
       return state;
@@ -67,14 +49,6 @@ const menu = (state = {
   }
 };
 
-export const showMenu = () => ({
-  type: SHOW_MENU,
-});
-
-export const hideMenu = () => ({
-  type: HIDE_MENU,
-});
-
 export const activeSection = (state = {
   id: '',
 }, action) => {
@@ -89,8 +63,29 @@ export const activeSection = (state = {
   }
 };
 
+export const assetLoadStatus = (state = {
+  assetLoadComplete: false,
+  assetPreloadComplete: false,
+}, action) => {
+  switch (action.type) {
+    case ASSET_PRELOAD_COMPLETE:
+      return {
+        ...state,
+        assetPreloadComplete: true,
+      };
+    case ASSET_LOAD_COMPLETE:
+      return {
+        ...state,
+        assetLoadComplete: true,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   activeSection,
+  assetLoadStatus,
   menu,
   siteData,
 });

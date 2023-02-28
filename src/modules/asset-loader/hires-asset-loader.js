@@ -1,31 +1,31 @@
-import { getSectionByName, updateSectionData } from '../../api/state';
+import { getSectionById, updateSectionData } from './loader-data';
 import breakpoints from '../../utils/breakpoints';
 
-const getNextAssetInQueue = data => (
-  data.find(asset => !asset.isLoaded)
+const getNextAssetInQueue = (data) => (
+  data.find((asset) => !asset.isLoaded)
 );
 
-const getAssetsLoaded = data => (
+const getAssetsLoaded = (data) => (
   data
-    .filter(asset => asset.isLoaded)
+    .filter((asset) => asset.isLoaded)
     .length
 );
 
 const hiresAssetLoader = (data, onComplete) => {
-  const sectionName = data.name;
+  const sectionId = data.id;
   const assetCt = data.hiResAsssets.length;
   if (assetCt === 0) {
     onComplete();
     return;
   }
   const { innerWidth } = window;
-  const minWidth = breakpoints.find(item => item.label === 'md');
+  const minWidth = breakpoints.find((item) => item.label === 'md');
   if (innerWidth < minWidth.value) {
     return;
   }
 
   const update = () => {
-    const section = getSectionByName(sectionName);
+    const section = getSectionById(sectionId);
     const { hiResAsssets } = section;
     if (getAssetsLoaded(hiResAsssets) === hiResAsssets.length) {
       onComplete();
@@ -37,7 +37,7 @@ const hiresAssetLoader = (data, onComplete) => {
     img.addEventListener('load', () => {
       asset.isLoaded = true;
       updateSectionData({
-        name: sectionName,
+        id: sectionId,
         hiResAsssets,
       });
       update();

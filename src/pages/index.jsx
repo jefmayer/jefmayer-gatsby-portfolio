@@ -11,11 +11,11 @@ import {
 import { getSectionIdFromClassNames } from '../utils/section-utils';
 import { initScrollObserver } from '../utils/browser-scroll';
 import { initScrollMagicController } from '../utils/scroll-magic';
-// import { initLoad } from '../modules/loaders/initial-asset-loader';
 import AmplifyIt from '../components/sections/amplifyit';
 import Footer from '../components/footer';
 import Header from '../components/header';
 import Intro from '../components/sections/intro';
+import Loader from '../components/loader';
 import Layout from '../components/layout';
 import Seo from '../components/seo';
 
@@ -37,6 +37,10 @@ class IndexPage extends Component {
         // Update Loader
       },
     });
+    // Reset window to top
+    setTimeout(() => {
+      window.scroll(0, 0);
+    }, 250);
   }
 
   componentDidMount() {
@@ -64,48 +68,41 @@ class IndexPage extends Component {
   }
 
   render() {
-    const { activeSectionId, data } = this.props;
+    const {
+      activeSectionId,
+      assetsLoaded,
+      assetsPreloaded,
+      data,
+    } = this.props;
     const isDataLoaded = data.length > 0;
-    if (isDataLoaded) {
-      /* initLoad({
-        data,
-        onUpdate: (d) => {
-          console.log(d);
-        },
-      }); */
-    }
     return (
-      <>
-        <div className="background-loader-wrapper">
-          <div className="background-loader-progress-bar" />
-        </div>
-        <div className="section-loader-wrapper">
-          <div className="section-loader-animation-wrapper">
-            <div className="section-loader-animation">
-              <div className="center-fill" />
-              <div className="asset-loader" />
-            </div>
-          </div>
-        </div>
-        <Header
-          activeSectionId={activeSectionId}
-          data={data}
-          onMenuClick={this.onMenuClick}
-          onNavClick={this.onNavClick}
-        />
-        <Layout>
-          {isDataLoaded
-          && (
-            <>
-              <Intro />
-              <AmplifyIt
-                data={this.getSectionById('amplifyit')}
-              />
-            </>
-          )}
-        </Layout>
-        <Footer />
-      </>
+      <Layout>
+        {isDataLoaded
+        && (
+          <>
+            <Loader
+              activeSectionId={activeSectionId}
+              data={data}
+            />
+            <Header
+              activeSectionId={activeSectionId}
+              data={data}
+              onMenuClick={this.onMenuClick}
+              onNavClick={this.onNavClick}
+            />
+            <Intro
+              assetLoadComplete={assetsLoaded}
+              assetPreloadComplete={assetsPreloaded}
+            />
+            <AmplifyIt
+              assetLoadComplete={assetsLoaded}
+              assetPreloadComplete={assetsPreloaded}
+              data={this.getSectionById('amplifyit')}
+            />
+            <Footer />
+          </>
+        )}
+      </Layout>
     );
   }
 }
@@ -115,21 +112,28 @@ export const Head = () => (
 );
 
 IndexPage.propTypes = {
-  activeSectionId: PropTypes.string,
+  assetsLoaded: PropTypes.bool.isRequired,
+  assetsPreloaded: PropTypes.bool.isRequired,
+  activeSectionId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  isMenuOpen: PropTypes.bool,
+  isMenuOpen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const {
     activeSection,
+    assetLoadStatus,
     menu,
     siteData,
   } = state;
   const {
     id: activeSectionId,
   } = activeSection;
+  const {
+    assetLoadComplete: assetsLoaded,
+    assetPreloadComplete: assetsPreloaded,
+  } = assetLoadStatus;
   const {
     isOpen: isMenuOpen,
   } = menu;
@@ -139,6 +143,8 @@ const mapStateToProps = (state) => {
   } = siteData;
   return {
     activeSectionId,
+    assetsLoaded,
+    assetsPreloaded,
     data,
     file,
     isMenuOpen,

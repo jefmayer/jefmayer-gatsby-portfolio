@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
@@ -12,6 +13,7 @@ class Intro extends Component {
     this.animate = this.animate.bind(this);
     this.triggerElement = '.project-animation-intro';
     this.animationRef = React.createRef();
+    this.initAnimate = false;
   }
 
   componentDidMount() {
@@ -33,6 +35,7 @@ class Intro extends Component {
   }
 
   animate() {
+    console.log('------- ANIMATE -------');
     const { triggerElement } = this;
     const controller = getScrollMagicController();
     const timelines = {
@@ -66,7 +69,12 @@ class Intro extends Component {
   }
 
   render() {
-    //
+    const { assetPreloadComplete } = this.props;
+    console.log(`${assetPreloadComplete}/${this.initAnimate}`);
+    if (assetPreloadComplete && !this.initAnimate) {
+      this.initAnimate = true;
+      this.animate();
+    }
     return (
       <section className="project-animation project-animation-intro" ref={this.animationRef}>
         <div className="fixed-bg" />
@@ -106,5 +114,9 @@ class Intro extends Component {
     );
   }
 }
+
+Intro.propTypes = {
+  assetPreloadComplete: PropTypes.bool.isRequired,
+};
 
 export default Intro;

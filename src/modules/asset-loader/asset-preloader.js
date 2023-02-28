@@ -1,41 +1,39 @@
+// import { addSectionAnimations } from '../sections/index';
 import {
   disableScroll,
   enableScroll,
 } from '../../utils/browser-scroll';
-// import hiresAssetLoader from './hires-asset-loader';
+import {
+  getActiveSectionId,
+  getLoaderData,
+  updateSectionData,
+  updateLoaderData,
+} from './loader-data';
+import hiresAssetLoader from './hires-asset-loader';
 
-let updateSiteData = null;
-let siteData = null;
-const getActiveSectionName = () => (
-  ''
-);
-const body = document.querySelector('body');
-const bgLoaderBar = document.querySelector('.background-loader-progress-bar');
-const bgLoaderWrapper = document.querySelector('.background-loader-wrapper');
-const initLoadingBars = document.querySelector('.project-animation-intro .intro-borders');
-
-const setSiteData = (data) => {
-  siteData = data;
+const callbacks = {
+  onPreloadComplete: null,
+  onLoadComplete: null,
+  onUpdate: null,
 };
+const body = document.querySelector('body');
+// const bgLoaderBar = document.querySelector('.background-loader-progress-bar');
+// const initLoadingBars = document.querySelector('.project-animation-intro .intro-borders');
 
-const getSiteData = () => (
-  siteData
-);
-
-const isSectionAssetLoadComplete = (data, name) => (
+const isSectionAssetLoadComplete = (data, id) => (
   data
-    .find((section) => section.name === name)
+    .find((section) => section.id === id)
     .assets.filter((asset) => !asset.isLoaded)
     .length === 0
 );
 
 // Add param to allow jumping the queue
 const getNextAssetInQueue = () => {
-  const data = getSiteData();
+  const data = getLoaderData();
   const { selectedSection, sections } = data;
   // If section specified, get that section's assets
   if (selectedSection !== '') {
-    const nextAssetToLoad = sections.find((section) => section.name === selectedSection)
+    const nextAssetToLoad = sections.find((section) => section.id === selectedSection)
       .assets.find((asset) => !asset.isLoaded && !asset.loadStarted);
     // If there are still assets to load in that section, load,
     // otherwise return to load queue
@@ -43,7 +41,7 @@ const getNextAssetInQueue = () => {
       return nextAssetToLoad;
     }
     // Reset selected section var
-    updateSiteData({ selectedSection: '' });
+    updateLoaderData({ selectedSection: '' });
     enableScroll();
   }
   return sections
@@ -74,17 +72,17 @@ const getAssetsTotal = (data) => (
     .length
 );
 
-const getInitialAssetsLoaded = (data, sectionName) => (
+const getInitialAssetsLoaded = (data, sectionId) => (
   data
-    .find((section) => section.name === sectionName)
+    .find((section) => section.id === sectionId)
     .assets
     .filter((asset) => asset.isLoaded)
     .length
 );
 
-const getInitialAssetsTotal = (data, sectionName) => (
+const getInitialAssetsTotal = (data, sectionId) => (
   data
-    .find((section) => section.name === sectionName)
+    .find((section) => section.id === sectionId)
     .assets
     .length
 );
@@ -92,27 +90,29 @@ const getInitialAssetsTotal = (data, sectionName) => (
 const addHiResAssets = (data) => {
   const assetList = document.querySelectorAll('.site-asset');
   const hiResAsssets = [...assetList]
-    .filter((asset) => asset.getAttribute('data-section') === data.name && asset.getAttribute('data-hires-src'))
+    .filter((asset) => asset.getAttribute('data-section') === data.id && asset.getAttribute('data-hires-src'))
     .map((element) => ({
       element,
       isLoaded: false,
     }));
-  updateSiteData({
-    name: data.name,
+  updateSectionData({
+    id: data.id,
     hiResAsssets,
   });
 };
 
 const onLoadComplete = () => {
-  // console.log('onLoadComplete');
-  updateSiteData({ isLoadComplete: true });
-  bgLoaderWrapper.classList.remove('show');
+  updateLoaderData({ isLoadComplete: true });
+  if (callbacks.onLoadComplete) {
+    callbacks.onLoadComplete();
+    // addSectionAnimations();
+  }
 };
 
-const onInitialLoadComplete = () => {
+const onPreloadComplete = () => {
   const scrollIndicator = document.querySelector('.scroll-indicator-animation');
   setTimeout(() => {
-    initLoadingBars.removeAttribute('style');
+    // initLoadingBars.removeAttribute('style');
     body.classList.remove('site-loading');
     body.classList.add('site-loaded');
     scrollIndicator.classList.add('animate-in');
@@ -121,29 +121,23 @@ const onInitialLoadComplete = () => {
   setTimeout(() => {
     body.classList.remove('site-loaded');
     scrollIndicator.classList.add('animate-loop');
-    // Set preloadComplete state to true
-  }, 2000);
-
-  setTimeout(() => {
-    const data = getSiteData();
-    const { isLoadComplete } = data;
-    if (!isLoadComplete) {
-      // Show backround loader
-      bgLoaderWrapper.classList.add('show');
+    if (callbacks.onPreloadComplete) {
+      callbacks.onPreloadComplete();
+      // addSectionAnimations();
     }
-  }, 3000);
+  }, 2000);
 };
 
-const updateLoad = () => {
-  const activeSection = getActiveSectionName();
-  const data = getSiteData();
+const updateAssetPreloader = () => {
+  const activeSection = getActiveSectionId();
+  const data = getLoaderData();
   const { selectedSection } = data;
   if (!activeSection) {
     return;
   }
   if (
     (!activeSection.allInitialAssetsLoaded && selectedSection === '')
-    || (!activeSection.allInitialAssetsLoaded && selectedSection === activeSection.name)
+    || (!activeSection.allInitialAssetsLoaded && selectedSection === activeSection.id)
   ) {
     disableScroll();
   } else {
@@ -152,17 +146,17 @@ const updateLoad = () => {
 };
 
 const update = () => {
-  const data = getSiteData();
+  const data = getLoaderData();
   const { sections } = data;
-  const intialSectionName = sections[0].name;
-  const initialAssetsTotal = getInitialAssetsTotal(sections, intialSectionName);
+  const intialSectionId = sections[0].id;
+  const initialAssetsTotal = getInitialAssetsTotal(sections, intialSectionId);
   const assetsTotal = getAssetsTotal(sections);
   // Create image
   const asset = getNextAssetInQueue();
   if (asset) {
     asset.loadImg(update);
   }
-  const initialAssetsLoaded = getInitialAssetsLoaded(sections, intialSectionName);
+  const initialAssetsLoaded = getInitialAssetsLoaded(sections, intialSectionId);
   const assetsLoaded = getAssetsLoaded(sections);
   // console.log(`${initialAssetsLoaded} / ${initialAssetsTotal}`);
   // console.log(`${assetsLoaded} / ${assetsTotal}`);
@@ -170,23 +164,30 @@ const update = () => {
   // Only set if still loading initial assets
   const initPercLoaded = initialAssetsLoaded / initialAssetsTotal;
   if (initPercLoaded < 1) {
-    initLoadingBars.style.transform = `rotate(0) scaleX(${initPercLoaded})`;
+    // initLoadingBars.style.transform = `rotate(0) scaleX(${initPercLoaded})`;
   }
-  bgLoaderBar.style.transform = `scaleX(${assetsLoaded / assetsTotal})`;
+  // bgLoaderBar.style.transform = `scaleX(${assetsLoaded / assetsTotal})`;
   // Check if all a section's image loads are complete
   sections.forEach((section, index) => {
-    const isComplete = isSectionAssetLoadComplete(sections, section.name);
+    const isComplete = isSectionAssetLoadComplete(sections, section.id);
     if (isComplete && !section.allInitialAssetsLoaded) {
-      // console.log(`${section.name}, isComplete: ${isComplete}`);
+      // console.log(`${section.id}, isComplete: ${isComplete}`);
       removeSectionEventHandlers(section.assets);
-      updateSiteData({
+      updateSectionData({
         allInitialAssetsLoaded: true,
-        name: section.name,
+        id: section.id,
       });
       addHiResAssets(section);
-      updateLoad();
+      // Start background load of hi-res image assets, if any
+      hiresAssetLoader(section, () => {
+        updateSectionData({
+          allHiResAssetsLoaded: true,
+          id: section.id,
+        });
+      });
+      updateAssetPreloader();
       if (index === 0) {
-        onInitialLoadComplete();
+        onPreloadComplete();
       }
     }
   });
@@ -196,25 +197,17 @@ const update = () => {
   }
 };
 
-const initLoad = (options) => {
-  const {
-    // activeSectionId,
-    data,
-    onUpdate,
-  } = options;
-  updateSiteData = onUpdate;
-  setSiteData(data);
+const initAssetPreloader = (options) => {
+  callbacks.onPreloadComplete = options.onPreloadComplete;
+  callbacks.onLoadComplete = options.onLoadComplete;
+  callbacks.onUpdate = options.onUpdate;
   // Multi-threaded loader
   update();
   update();
   update();
-  // Reset window to top
-  setTimeout(() => {
-    window.scroll(0, 0);
-  }, 250);
 };
 
 export {
-  initLoad,
-  updateLoad,
+  initAssetPreloader,
+  updateAssetPreloader,
 };

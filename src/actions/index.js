@@ -1,4 +1,5 @@
-export const ADD_SECTION_IMAGES = 'ADD_SECTION_IMAGES';
+export const ASSET_LOAD_COMPLETE = 'ASSET_LOAD_COMPLETE';
+export const ASSET_PRELOAD_COMPLETE = 'ASSET_PRELOAD_COMPLETE';
 export const HIDE_MENU = 'HIDE_MENU';
 export const RECEIVE_SITE_DATA = 'RECEIVE_SITE_DATA';
 export const REQUEST_SITE_DATA = 'REQUEST_SITE_DATA';
@@ -22,12 +23,6 @@ export const fetchSiteData = (file) => dispatch => { /* eslint-disable-line arro
     .then((json) => dispatch(receiveSiteData(json, file)));
 };
 
-export const addSectionImages = (data, sectionId) => ({
-  type: ADD_SECTION_IMAGES,
-  data,
-  sectionId,
-});
-
 export const showMenu = () => ({
   type: SHOW_MENU,
 });
@@ -39,4 +34,12 @@ export const hideMenu = () => ({
 export const setActiveSection = (id) => ({
   type: SET_ACTIVE_SECTION,
   id,
+});
+
+export const assetLoadComplete = () => ({
+  type: ASSET_LOAD_COMPLETE,
+});
+
+export const assetPreloadComplete = () => ({
+  type: ASSET_PRELOAD_COMPLETE,
 });

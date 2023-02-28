@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 
 class SiteImage extends Component {
   componentDidMount() {
-    const { sectionImages } = this.props;
-    sectionImages.push(this);
+    //
   }
 
   render() {
@@ -45,7 +44,10 @@ SiteImage.propTypes = {
   data: PropTypes.shape(),
   isLoaded: PropTypes.bool,
   sectionId: PropTypes.string.isRequired,
-  sectionImages: PropTypes.arrayOf(PropTypes.shape),
+};
+
+SiteImage.defaultProps = {
+  isLoaded: false,
 };
 
 export default SiteImage;
