@@ -3,8 +3,10 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  assetLoadComplete,
-  assetPreloadComplete,
+  setAssetLoadComplete,
+  setAssetLoadPercentage,
+  setAssetPreloadComplete,
+  setAssetPreloadPercentage,
 } from '../actions';
 import { initLoaderData } from '../modules/asset-loader/loader-data';
 import { initAssetPreloader } from '../modules/asset-loader/asset-preloader';
@@ -21,35 +23,33 @@ class Loader extends Component {
     initLoaderData(data);
     initAssetPreloader({
       onPreloadComplete: () => {
-        console.log('onPreloadComplete');
-        dispatch(assetPreloadComplete());
-        /* setTimeout(() => {
-          if (!isLoadComplete) {
-            // Show backround loader
-            this.bgLoaderRef.current.classList.add('show');
-          }
-        }, 3000); */
+        dispatch(setAssetPreloadComplete());
       },
       onLoadComplete: () => {
-        console.log('onLoadComplete');
         this.bgLoaderRef.current.classList.remove('show');
-        dispatch(assetLoadComplete());
+        dispatch(setAssetLoadComplete());
       },
-      onUpdate: () => {
-        console.log('onUpdate');
+      onLoadUpdate: (value) => {
+        dispatch(setAssetLoadPercentage(value));
+      },
+      onPreloadUpdate: (value) => {
+        dispatch(setAssetPreloadPercentage(value));
       },
     });
-    // Reset window to top
-    setTimeout(() => {
-      window.scroll(0, 0);
-    }, 250);
   }
 
   render() {
-    //
+    const {
+      assetLoadComplete,
+      assetLoadPercentage,
+      assetPreloadComplete,
+    } = this.props;
+    if (this.progressBarRef.current) {
+      this.progressBarRef.current.style.transform = `scaleX(${assetLoadPercentage})`;
+    }
     return (
       <>
-        <div className="background-loader-wrapper" ref={this.bgLoaderRef}>
+        <div className={`background-loader-wrapper ${assetPreloadComplete && !assetLoadComplete ? 'show' : ''}`} ref={this.bgLoaderRef}>
           <div className="background-loader-progress-bar" ref={this.progressBarRef} />
         </div>
         <div className="section-loader-wrapper">
@@ -67,6 +67,9 @@ class Loader extends Component {
 
 Loader.propTypes = {
   // activeSectionId: PropTypes.string,
+  assetLoadComplete: PropTypes.bool.isRequired,
+  assetLoadPercentage: PropTypes.number.isRequired,
+  assetPreloadComplete: PropTypes.bool.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape()),
   dispatch: PropTypes.func.isRequired,
 };
@@ -74,8 +77,10 @@ Loader.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
   ...bindActionCreators({
-    assetLoadComplete,
-    assetPreloadComplete,
+    setAssetLoadComplete,
+    setAssetLoadPercentage,
+    setAssetPreloadComplete,
+    setAssetPreloadPercentage,
   }, dispatch),
 });
 

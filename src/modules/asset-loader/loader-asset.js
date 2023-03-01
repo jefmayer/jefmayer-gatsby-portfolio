@@ -5,6 +5,7 @@ export default class LoaderAsset {
     this.element = options.element;
     this.isLoaded = options.isLoaded;
     this.loadStarted = options.loadStarted;
+    this.preload = options.preload;
   }
 
   getBreakpointLabel() {

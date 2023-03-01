@@ -10,13 +10,13 @@ class SiteImage extends Component {
     const {
       data,
       isLoaded,
-      sectionId,
     } = this.props;
     const {
       alt,
       css,
       hiresSrc,
       id,
+      sectionId,
       src,
     } = data;
     return (
@@ -43,7 +43,6 @@ class SiteImage extends Component {
 SiteImage.propTypes = {
   data: PropTypes.shape(),
   isLoaded: PropTypes.bool,
-  sectionId: PropTypes.string.isRequired,
 };
 
 SiteImage.defaultProps = {

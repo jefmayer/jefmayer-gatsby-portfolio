@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
-// import { hideMenu } from '../nav/menu';
+import { hideMenu } from '../../actions';
 
 class Intro extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class Intro extends Component {
     this.animate = this.animate.bind(this);
     this.triggerElement = '.project-animation-intro';
     this.animationRef = React.createRef();
+    this.introBordersRef = React.createRef();
     this.initAnimate = false;
   }
 
@@ -35,7 +38,7 @@ class Intro extends Component {
   }
 
   animate() {
-    console.log('------- ANIMATE -------');
+    const { dispatch } = this.props;
     const { triggerElement } = this;
     const controller = getScrollMagicController();
     const timelines = {
@@ -48,7 +51,7 @@ class Intro extends Component {
         .to(`${triggerElement} .intro-inner-content`, 1, { scale: 0.75, opacity: 0 }, 0)
         .to(`${triggerElement} .intro-borders`, 0.5, { scaleX: 0 }, 1)
         .call(() => {
-          // hideMenu();
+          dispatch(hideMenu());
         }, null, null, 2)
         .to('.header', 1, { y: 0 }),
     };
@@ -69,8 +72,13 @@ class Intro extends Component {
   }
 
   render() {
-    const { assetPreloadComplete } = this.props;
-    console.log(`${assetPreloadComplete}/${this.initAnimate}`);
+    const {
+      assetPreloadComplete,
+      assetPreloadPercentage,
+    } = this.props;
+    if (assetPreloadPercentage < 1 && this.introBordersRef.current) {
+      this.introBordersRef.current.style.transform = `rotate(0) scaleX(${assetPreloadPercentage})`;
+    }
     if (assetPreloadComplete && !this.initAnimate) {
       this.initAnimate = true;
       this.animate();
@@ -81,7 +89,7 @@ class Intro extends Component {
         <div className="section-top-indicator" />
         <div className="section-content">
           <div className="content-wrapper">
-            <div className="intro-borders">
+            <div className="intro-borders" ref={this.introBordersRef}>
               <div className="intro-border-top" />
               <div className="intro-border-bottom" />
             </div>
@@ -117,6 +125,15 @@ class Intro extends Component {
 
 Intro.propTypes = {
   assetPreloadComplete: PropTypes.bool.isRequired,
+  assetPreloadPercentage: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Intro;
+const mapDispatchToProps = (dispatch) => ({
+  dispatch,
+  ...bindActionCreators({
+    hideMenu,
+  }, dispatch),
+});
+
+export default connect(mapDispatchToProps)(Intro);

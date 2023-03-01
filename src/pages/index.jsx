@@ -30,11 +30,10 @@ class IndexPage extends Component {
     initScrollObserver({
       onUpdate: (classNames, isIntersecting) => {
         const id = getSectionIdFromClassNames(classNames);
-        console.log(`${id}, ${isIntersecting}`);
+        // console.log(`${id}, ${isIntersecting}`);
         if (isIntersecting) {
           dispatch(setActiveSection(id));
         }
-        // Update Loader
       },
     });
     // Reset window to top
@@ -70,8 +69,10 @@ class IndexPage extends Component {
   render() {
     const {
       activeSectionId,
-      assetsLoaded,
-      assetsPreloaded,
+      assetLoadComplete,
+      assetLoadPercentage,
+      assetPreloadComplete,
+      assetPreloadPercentage,
       data,
     } = this.props;
     const isDataLoaded = data.length > 0;
@@ -81,7 +82,11 @@ class IndexPage extends Component {
         && (
           <>
             <Loader
+              // Need to update the loader when the activeSectionId changes
               activeSectionId={activeSectionId}
+              assetLoadComplete={assetLoadComplete}
+              assetLoadPercentage={assetLoadPercentage}
+              assetPreloadComplete={assetPreloadComplete}
               data={data}
             />
             <Header
@@ -91,12 +96,13 @@ class IndexPage extends Component {
               onNavClick={this.onNavClick}
             />
             <Intro
-              assetLoadComplete={assetsLoaded}
-              assetPreloadComplete={assetsPreloaded}
+              assetLoadComplete={assetLoadComplete}
+              assetPreloadComplete={assetPreloadComplete}
+              assetPreloadPercentage={assetPreloadPercentage}
             />
             <AmplifyIt
-              assetLoadComplete={assetsLoaded}
-              assetPreloadComplete={assetsPreloaded}
+              assetLoadComplete={assetLoadComplete}
+              assetPreloadComplete={assetPreloadComplete}
               data={this.getSectionById('amplifyit')}
             />
             <Footer />
@@ -112,8 +118,10 @@ export const Head = () => (
 );
 
 IndexPage.propTypes = {
-  assetsLoaded: PropTypes.bool.isRequired,
-  assetsPreloaded: PropTypes.bool.isRequired,
+  assetLoadComplete: PropTypes.bool.isRequired,
+  assetLoadPercentage: PropTypes.number.isRequired,
+  assetPreloadComplete: PropTypes.bool.isRequired,
+  assetPreloadPercentage: PropTypes.number.isRequired,
   activeSectionId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -131,22 +139,24 @@ const mapStateToProps = (state) => {
     id: activeSectionId,
   } = activeSection;
   const {
-    assetLoadComplete: assetsLoaded,
-    assetPreloadComplete: assetsPreloaded,
+    assetLoadComplete,
+    assetLoadPercentage,
+    assetPreloadComplete,
+    assetPreloadPercentage,
   } = assetLoadStatus;
   const {
     isOpen: isMenuOpen,
   } = menu;
   const {
-    file,
     items: data,
   } = siteData;
   return {
     activeSectionId,
-    assetsLoaded,
-    assetsPreloaded,
+    assetLoadComplete,
+    assetLoadPercentage,
+    assetPreloadComplete,
+    assetPreloadPercentage,
     data,
-    file,
     isMenuOpen,
   };
 };

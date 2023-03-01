@@ -7,6 +7,7 @@
           "css": "video-grid-item",
           "id": "video-grid-t-l",
           "hiresSrc": "images/amplifyit/a-video-grid-t-l.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-t-l.png"
         },
         {
@@ -14,6 +15,7 @@
           "css": "video-grid-item",
           "id": "video-grid-t-m",
           "hiresSrc": "images/amplifyit/a-video-grid-t-m.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-t-m.png"
         },
         {
@@ -21,6 +23,7 @@
           "css": "video-grid-item",
           "id": "video-grid-t-r",
           "hiresSrc": "images/amplifyit/a-video-grid-t-r.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-t-r.png"
         },
         {
@@ -28,6 +31,7 @@
           "css": "video-grid-item",
           "id": "video-grid-m-l",
           "hiresSrc": "images/amplifyit/a-video-grid-m-l.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-m-l.png"
         },
         {
@@ -35,6 +39,7 @@
           "css": "video-grid-item",
           "id": "video-grid-m-m",
           "hiresSrc": "images/amplifyit/a-video-grid-m-m.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-m-m.png"
         },
         {
@@ -42,6 +47,7 @@
           "css": "video-grid-item",
           "id": "video-grid-m-r",
           "hiresSrc": "images/amplifyit/a-video-grid-m-r.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-m-r.png"
         },
         {
@@ -49,6 +55,7 @@
           "css": "video-grid-item",
           "id": "video-grid-b-l",
           "hiresSrc": "images/amplifyit/a-video-grid-b-l.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-b-l.png"
         },
         {
@@ -56,6 +63,7 @@
           "css": "video-grid-item",
           "id": "video-grid-b-m",
           "hiresSrc": "images/amplifyit/a-video-grid-b-m.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-b-m.png"
         },
         {
@@ -63,6 +71,7 @@
           "css": "video-grid-item",
           "id": "video-grid-b-r",
           "hiresSrc": "images/amplifyit/a-video-grid-b-r.gif",
+          "preload": true,
           "src": "images/amplifyit/video-grid-b-r.png"
         },
         {
@@ -70,6 +79,7 @@
           "css": "",
           "id": "tablet-sampler",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/tablet-sampler.png"
         },
         {
@@ -77,6 +87,7 @@
           "css": "",
           "id": "tablet-sampler-shadow",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/tablet-sampler-shadow.png"
         },
         {
@@ -84,6 +95,7 @@
           "css": "",
           "id": "mixing-board",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/mixing-board.png"
         },
         {
@@ -91,6 +103,7 @@
           "css": "",
           "id": "mixing-board-shadow",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/mixing-board-shadow.png"
         },
         {
@@ -98,6 +111,7 @@
           "css": "",
           "id": "beats-headphones",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/beats-headphones.png"
         },
         {
@@ -105,6 +119,7 @@
           "css": "",
           "id": "beats-headphones-shadow",
           "hiresSrc": "",
+          "preload": true,
           "src": "images/amplifyit/beats-headphones-shadow.png"
         }
       ],

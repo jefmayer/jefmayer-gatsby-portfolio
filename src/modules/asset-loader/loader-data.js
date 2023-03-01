@@ -17,6 +17,7 @@ const initLoaderData = (data) => {
         element: document.querySelector(`.${element.id} .add-site-img`),
         isLoaded: false,
         loadStarted: false,
+        preload: element.preload,
       }))),
       hiResAsssets: [],
       isActive: false,

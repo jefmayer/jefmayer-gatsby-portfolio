@@ -1,4 +1,3 @@
-// import { addSectionAnimations } from '../sections/index';
 import {
   disableScroll,
   enableScroll,
@@ -12,13 +11,12 @@ import {
 import hiresAssetLoader from './hires-asset-loader';
 
 const callbacks = {
-  onPreloadComplete: null,
   onLoadComplete: null,
-  onUpdate: null,
+  onLoadUpdate: null,
+  onPreloadComplete: null,
+  onPreloadUpdate: null,
 };
 const body = document.querySelector('body');
-// const bgLoaderBar = document.querySelector('.background-loader-progress-bar');
-// const initLoadingBars = document.querySelector('.project-animation-intro .intro-borders');
 
 const isSectionAssetLoadComplete = (data, id) => (
   data
@@ -72,18 +70,19 @@ const getAssetsTotal = (data) => (
     .length
 );
 
-const getInitialAssetsLoaded = (data, sectionId) => (
+const getPreloadAssetsLoaded = (data) => (
   data
-    .find((section) => section.id === sectionId)
-    .assets
-    .filter((asset) => asset.isLoaded)
+    .map((section) => section.assets)
+    .reduce((a, b) => a.concat(b), [])
+    .filter((asset) => asset.preload && asset.isLoaded)
     .length
 );
 
-const getInitialAssetsTotal = (data, sectionId) => (
+const getPreloadAssetsTotal = (data) => (
   data
-    .find((section) => section.id === sectionId)
-    .assets
+    .map((section) => section.assets)
+    .reduce((a, b) => a.concat(b), [])
+    .filter((asset) => asset.preload)
     .length
 );
 
@@ -136,8 +135,8 @@ const updateAssetPreloader = () => {
     return;
   }
   if (
-    (!activeSection.allInitialAssetsLoaded && selectedSection === '')
-    || (!activeSection.allInitialAssetsLoaded && selectedSection === activeSection.id)
+    (!activeSection.allPreloadAssetsLoaded && selectedSection === '')
+    || (!activeSection.allPreloadAssetsLoaded && selectedSection === activeSection.id)
   ) {
     disableScroll();
   } else {
@@ -148,33 +147,34 @@ const updateAssetPreloader = () => {
 const update = () => {
   const data = getLoaderData();
   const { sections } = data;
-  const intialSectionId = sections[0].id;
-  const initialAssetsTotal = getInitialAssetsTotal(sections, intialSectionId);
-  const assetsTotal = getAssetsTotal(sections);
   // Create image
   const asset = getNextAssetInQueue();
   if (asset) {
     asset.loadImg(update);
   }
-  const initialAssetsLoaded = getInitialAssetsLoaded(sections, intialSectionId);
+  const preloadAssetsLoaded = getPreloadAssetsLoaded(sections);
+  const preloadAssetsTotal = getPreloadAssetsTotal(sections);
   const assetsLoaded = getAssetsLoaded(sections);
-  // console.log(`${initialAssetsLoaded} / ${initialAssetsTotal}`);
+  const assetsTotal = getAssetsTotal(sections);
+  // console.log(`${preloadAssetsLoaded} / ${preloadAssetsTotal}`);
   // console.log(`${assetsLoaded} / ${assetsTotal}`);
   // console.log(`${(assetsLoaded / assetsTotal) * 100}%`);
-  // Only set if still loading initial assets
-  const initPercLoaded = initialAssetsLoaded / initialAssetsTotal;
-  if (initPercLoaded < 1) {
-    // initLoadingBars.style.transform = `rotate(0) scaleX(${initPercLoaded})`;
+  const preloadPercLoaded = preloadAssetsLoaded / preloadAssetsTotal;
+  const percLoaded = assetsLoaded / assetsTotal;
+  if (callbacks.onPreloadUpdate) {
+    callbacks.onPreloadUpdate(preloadPercLoaded);
   }
-  // bgLoaderBar.style.transform = `scaleX(${assetsLoaded / assetsTotal})`;
+  if (callbacks.onLoadUpdate) {
+    callbacks.onLoadUpdate(percLoaded);
+  }
   // Check if all a section's image loads are complete
   sections.forEach((section, index) => {
     const isComplete = isSectionAssetLoadComplete(sections, section.id);
-    if (isComplete && !section.allInitialAssetsLoaded) {
+    if (isComplete && !section.allPreloadAssetsLoaded) {
       // console.log(`${section.id}, isComplete: ${isComplete}`);
       removeSectionEventHandlers(section.assets);
       updateSectionData({
-        allInitialAssetsLoaded: true,
+        allPreloadAssetsLoaded: true,
         id: section.id,
       });
       addHiResAssets(section);
@@ -198,9 +198,11 @@ const update = () => {
 };
 
 const initAssetPreloader = (options) => {
-  callbacks.onPreloadComplete = options.onPreloadComplete;
   callbacks.onLoadComplete = options.onLoadComplete;
-  callbacks.onUpdate = options.onUpdate;
+  callbacks.onLoadUpdate = options.onLoadUpdate;
+  callbacks.onPreloadComplete = options.onPreloadComplete;
+  callbacks.onPreloadUpdate = options.onPreloadUpdate;
+  body.classList.add('site-loading');
   // Multi-threaded loader
   update();
   update();

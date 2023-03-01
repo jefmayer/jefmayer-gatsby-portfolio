@@ -2,6 +2,8 @@
 import { combineReducers } from 'redux';
 import {
   ASSET_LOAD_COMPLETE,
+  ASSET_LOAD_PERCENTAGE,
+  ASSET_PRELOAD_PERCENTAGE,
   ASSET_PRELOAD_COMPLETE,
   RECEIVE_SITE_DATA,
   REQUEST_SITE_DATA,
@@ -12,7 +14,6 @@ import {
 
 const siteData = (state = {
   items: [],
-  file: '',
 }, action) => {
   switch (action.type) {
     case REQUEST_SITE_DATA:
@@ -22,8 +23,13 @@ const siteData = (state = {
     case RECEIVE_SITE_DATA:
       return {
         ...state,
-        file: action.file,
-        items: action.data.sections,
+        items: action.data.sections.map((section) => ({
+          ...section,
+          assets: section.assets.map((asset) => ({
+            ...asset,
+            sectionId: section.id,
+          })),
+        })),
       };
     default:
       return state;
@@ -65,7 +71,9 @@ export const activeSection = (state = {
 
 export const assetLoadStatus = (state = {
   assetLoadComplete: false,
+  assetLoadPercentage: 0,
   assetPreloadComplete: false,
+  assetPreloadPercentage: 0,
 }, action) => {
   switch (action.type) {
     case ASSET_PRELOAD_COMPLETE:
@@ -77,6 +85,16 @@ export const assetLoadStatus = (state = {
       return {
         ...state,
         assetLoadComplete: true,
+      };
+    case ASSET_LOAD_PERCENTAGE:
+      return {
+        ...state,
+        assetLoadPercentage: action.value,
+      };
+    case ASSET_PRELOAD_PERCENTAGE:
+      return {
+        ...state,
+        assetPreloadPercentage: action.value,
       };
     default:
       return state;

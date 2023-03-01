@@ -10,9 +10,8 @@ class AmplifyIt extends Component {
   constructor(props) {
     super(props);
     this.animate = this.animate.bind(this);
-    this.getImageDataById = this.getImageDataById.bind(this);
     this.triggerElement = '.project-animation-amplifyit';
-    this.sectionId = 'amplifyit';
+    this.getImageDataById = this.getImageDataById.bind(this);
     this.animationRef = React.createRef();
     this.initAnimate = false;
   }
@@ -81,9 +80,6 @@ class AmplifyIt extends Component {
 
   render() {
     const {
-      sectionId,
-    } = this;
-    const {
       assetPreloadComplete,
       data,
     } = this.props;
@@ -108,71 +104,56 @@ class AmplifyIt extends Component {
                 <div className="video-grid">
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-l')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-m')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-t-r')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-l')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-m')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-m-r')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-l')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-m')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('video-grid-b-r')}
-                    sectionId={sectionId}
                   />
                 </div>
               </div>
               <div className="tablet-sampler-wrapper">
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler')}
-                  sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('tablet-sampler-shadow')}
-                  sectionId={sectionId}
                 />
               </div>
               <div className="mixing-board-wrapper">
                 <SiteImage
                   data={this.getImageDataById('mixing-board')}
-                  sectionId={sectionId}
                 />
                 <SiteImage
                   data={this.getImageDataById('mixing-board-shadow')}
-                  sectionId={sectionId}
                 />
               </div>
               <div className="beats-headphones-wrapper">
                 <div>
                   <SiteImage
                     data={this.getImageDataById('beats-headphones')}
-                    sectionId={sectionId}
                   />
                   <SiteImage
                     data={this.getImageDataById('beats-headphones-shadow')}
-                    sectionId={sectionId}
                   />
                 </div>
               </div>
