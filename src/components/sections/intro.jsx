@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import ScrollMagic from 'scrollmagic';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { TimelineLite } from 'gsap';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
@@ -11,12 +11,16 @@ import { hideMenu } from '../../actions';
 class Intro extends Component {
   constructor(props) {
     super(props);
+    this.onAssetPreloadComplete = this.onAssetPreloadComplete.bind(this);
     this.loaderAnimate = this.loaderAnimate.bind(this);
     this.animate = this.animate.bind(this);
     this.triggerElement = '.project-animation-intro';
     this.animationRef = React.createRef();
-    this.introBordersRef = React.createRef();
     this.initAnimate = false;
+    this.scrollIndicatorSelector = '';
+    this.introBordersStyle = {};
+    this.body = document.querySelector('body');
+    this.body.classList.add('site-loading');
   }
 
   componentDidMount() {
@@ -24,6 +28,23 @@ class Intro extends Component {
     const el = this.animationRef.current;
     observer.observe(el);
     this.loaderAnimate();
+  }
+
+  onAssetPreloadComplete() {
+    // Update DOM, run once
+    setTimeout(() => {
+      this.introBordersStyle = {};
+      this.body.classList.remove('site-loading');
+      this.body.classList.add('site-loaded');
+      this.scrollIndicatorSelector = 'animate-in';
+      this.forceUpdate();
+    }, 1000);
+    setTimeout(() => {
+      this.body.classList.remove('site-loaded');
+      this.scrollIndicatorSelector = 'animate-in animate-loop';
+      this.forceUpdate();
+      this.animate();
+    }, 2000);
   }
 
   loaderAnimate() {
@@ -76,12 +97,13 @@ class Intro extends Component {
       assetPreloadComplete,
       assetPreloadPercentage,
     } = this.props;
-    if (assetPreloadPercentage < 1 && this.introBordersRef.current) {
-      this.introBordersRef.current.style.transform = `rotate(0) scaleX(${assetPreloadPercentage})`;
+
+    if (assetPreloadPercentage < 1) {
+      this.introBordersStyle = { transform: `rotate(0) scaleX(${assetPreloadPercentage})` };
     }
     if (assetPreloadComplete && !this.initAnimate) {
       this.initAnimate = true;
-      this.animate();
+      this.onAssetPreloadComplete();
     }
     return (
       <section className="project-animation project-animation-intro" ref={this.animationRef}>
@@ -89,7 +111,7 @@ class Intro extends Component {
         <div className="section-top-indicator" />
         <div className="section-content">
           <div className="content-wrapper">
-            <div className="intro-borders" ref={this.introBordersRef}>
+            <div className="intro-borders" style={this.introBordersStyle}>
               <div className="intro-border-top" />
               <div className="intro-border-bottom" />
             </div>
@@ -102,7 +124,7 @@ class Intro extends Component {
                     I&rsquo;ve collaborated with talented, multi-disciplined teams to develop engaging interactive experiences.
                   </h1>
                   <div className="scroll-indicator-animation-wrapper">
-                    <button type="button" className="scroll-indicator-animation scene-navigation-btn" data-scene-name="amplifyit" aria-label="Scroll to see my work!">
+                    <button type="button" className={`scroll-indicator-animation scene-navigation-btn ${this.scrollIndicatorSelector}`} data-scene-name="amplifyit" aria-label="Scroll to see my work!">
                       <div className="center-fill" />
                       <div className="indicator-arrow">
                         <div className="center-line" />

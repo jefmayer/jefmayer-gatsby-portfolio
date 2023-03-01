@@ -16,7 +16,6 @@ const callbacks = {
   onPreloadComplete: null,
   onPreloadUpdate: null,
 };
-const body = document.querySelector('body');
 
 const isSectionAssetLoadComplete = (data, id) => (
   data
@@ -109,22 +108,9 @@ const onLoadComplete = () => {
 };
 
 const onPreloadComplete = () => {
-  const scrollIndicator = document.querySelector('.scroll-indicator-animation');
-  setTimeout(() => {
-    // initLoadingBars.removeAttribute('style');
-    body.classList.remove('site-loading');
-    body.classList.add('site-loaded');
-    scrollIndicator.classList.add('animate-in');
-  }, 1000);
-
-  setTimeout(() => {
-    body.classList.remove('site-loaded');
-    scrollIndicator.classList.add('animate-loop');
-    if (callbacks.onPreloadComplete) {
-      callbacks.onPreloadComplete();
-      // addSectionAnimations();
-    }
-  }, 2000);
+  if (callbacks.onPreloadComplete) {
+    callbacks.onPreloadComplete();
+  }
 };
 
 const updateAssetPreloader = () => {
@@ -147,7 +133,6 @@ const updateAssetPreloader = () => {
 const update = () => {
   const data = getLoaderData();
   const { sections } = data;
-  // Create image
   const asset = getNextAssetInQueue();
   if (asset) {
     asset.loadImg(update);
@@ -202,7 +187,6 @@ const initAssetPreloader = (options) => {
   callbacks.onLoadUpdate = options.onLoadUpdate;
   callbacks.onPreloadComplete = options.onPreloadComplete;
   callbacks.onPreloadUpdate = options.onPreloadUpdate;
-  body.classList.add('site-loading');
   // Multi-threaded loader
   update();
   update();

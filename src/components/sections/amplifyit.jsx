@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
+import { getImageDataById } from '../../utils/section-utils';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
 import SiteImage from '../site-image';
@@ -11,7 +12,6 @@ class AmplifyIt extends Component {
     super(props);
     this.animate = this.animate.bind(this);
     this.triggerElement = '.project-animation-amplifyit';
-    this.getImageDataById = this.getImageDataById.bind(this);
     this.animationRef = React.createRef();
     this.initAnimate = false;
   }
@@ -20,12 +20,6 @@ class AmplifyIt extends Component {
     const observer = getScrollObserver();
     const el = this.animationRef.current;
     observer.observe(el);
-  }
-
-  getImageDataById(id) {
-    const { data } = this.props;
-    const { assets } = data;
-    return assets.find((asset) => asset.id === id);
   }
 
   animate() {
@@ -103,57 +97,57 @@ class AmplifyIt extends Component {
               <div className="video-grid-wrapper">
                 <div className="video-grid">
                   <SiteImage
-                    data={this.getImageDataById('video-grid-t-l')}
+                    data={getImageDataById('video-grid-t-l', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-t-m')}
+                    data={getImageDataById('video-grid-t-m', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-t-r')}
+                    data={getImageDataById('video-grid-t-r', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-m-l')}
+                    data={getImageDataById('video-grid-m-l', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-m-m')}
+                    data={getImageDataById('video-grid-m-m', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-m-r')}
+                    data={getImageDataById('video-grid-m-r', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-b-l')}
+                    data={getImageDataById('video-grid-b-l', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-b-m')}
+                    data={getImageDataById('video-grid-b-m', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('video-grid-b-r')}
+                    data={getImageDataById('video-grid-b-r', data)}
                   />
                 </div>
               </div>
               <div className="tablet-sampler-wrapper">
                 <SiteImage
-                  data={this.getImageDataById('tablet-sampler')}
+                  data={getImageDataById('tablet-sampler', data)}
                 />
                 <SiteImage
-                  data={this.getImageDataById('tablet-sampler-shadow')}
+                  data={getImageDataById('tablet-sampler-shadow', data)}
                 />
               </div>
               <div className="mixing-board-wrapper">
                 <SiteImage
-                  data={this.getImageDataById('mixing-board')}
+                  data={getImageDataById('mixing-board', data)}
                 />
                 <SiteImage
-                  data={this.getImageDataById('mixing-board-shadow')}
+                  data={getImageDataById('mixing-board-shadow', data)}
                 />
               </div>
               <div className="beats-headphones-wrapper">
                 <div>
                   <SiteImage
-                    data={this.getImageDataById('beats-headphones')}
+                    data={getImageDataById('beats-headphones', data)}
                   />
                   <SiteImage
-                    data={this.getImageDataById('beats-headphones-shadow')}
+                    data={getImageDataById('beats-headphones-shadow', data)}
                   />
                 </div>
               </div>
