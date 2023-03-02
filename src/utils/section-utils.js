@@ -3,9 +3,17 @@ const getImageDataById = (id, data) => {
   return assets.find((asset) => asset.id === id);
 };
 
-const getSectionIdFromClassNames = (classNames) => (
-  classNames.substr(classNames.lastIndexOf('-') + 1)
-);
+const getSectionIdFromClassNames = (classNames) => {
+  const key = 'project-animation-';
+  let sectionId = '';
+  classNames.split(' ').forEach((selector) => {
+    if (selector.indexOf(key) !== -1) {
+      const startAt = selector.lastIndexOf('-') + 1;
+      sectionId = selector.substr(startAt);
+    }
+  });
+  return sectionId;
+};
 
 export {
   getImageDataById,

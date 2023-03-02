@@ -1,12 +1,10 @@
 /* eslint-disable react/function-component-definition */
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   fetchSiteData,
-  hideMenu,
   setActiveSection,
-  showMenu,
 } from '../actions';
 import { getSectionIdFromClassNames } from '../utils/section-utils';
 import { initScrollObserver } from '../utils/browser-scroll';
@@ -17,15 +15,24 @@ import Header from '../components/header';
 import Intro from '../components/sections/intro';
 import Loader from '../components/loader';
 import Layout from '../components/layout';
+import Samsung from '../components/sections/samsung';
 import Seo from '../components/seo';
 
 class IndexPage extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = this.props;
-    this.onMenuClick = this.onMenuClick.bind(this);
-    this.onNavClick = this.onNavClick.bind(this);
     this.getSectionById = this.getSectionById.bind(this);
+    this.sectionComponentMap = [
+      {
+        id: 'amplifyit',
+        SectionComponent: AmplifyIt,
+      },
+      {
+        id: 'samsung',
+        SectionComponent: Samsung,
+      },
+    ];
     initScrollMagicController();
     initScrollObserver({
       onUpdate: (classNames, isIntersecting) => {
@@ -47,20 +54,6 @@ class IndexPage extends Component {
     dispatch(fetchSiteData('portfolio-data.json'));
   }
 
-  onMenuClick() {
-    const { dispatch, isMenuOpen } = this.props;
-    if (!isMenuOpen) {
-      dispatch(showMenu());
-    } else {
-      dispatch(hideMenu());
-    }
-  }
-
-  onNavClick(id) {
-    const { dispatch } = this.props;
-    dispatch(setActiveSection(id));
-  }
-
   getSectionById(id) {
     const { data } = this.props;
     return data.find((section) => section.id === id);
@@ -74,6 +67,7 @@ class IndexPage extends Component {
       assetPreloadComplete,
       assetPreloadPercentage,
       data,
+      isMenuOpen,
     } = this.props;
     const isDataLoaded = data.length > 0;
     return (
@@ -92,6 +86,7 @@ class IndexPage extends Component {
             <Header
               activeSectionId={activeSectionId}
               data={data}
+              isMenuOpen={isMenuOpen}
               onMenuClick={this.onMenuClick}
               onNavClick={this.onNavClick}
             />
@@ -100,11 +95,19 @@ class IndexPage extends Component {
               assetPreloadComplete={assetPreloadComplete}
               assetPreloadPercentage={assetPreloadPercentage}
             />
-            <AmplifyIt
-              assetLoadComplete={assetLoadComplete}
-              assetPreloadComplete={assetPreloadComplete}
-              data={this.getSectionById('amplifyit')}
-            />
+            {this.sectionComponentMap.map((section) => {
+              const {
+                id,
+                SectionComponent,
+              } = section;
+              return (
+                <SectionComponent
+                  assetLoadComplete={assetLoadComplete}
+                  assetPreloadComplete={assetPreloadComplete}
+                  data={this.getSectionById(id)}
+                />
+              );
+            })}
             <Footer />
           </>
         )}

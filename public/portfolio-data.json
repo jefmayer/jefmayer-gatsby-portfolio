@@ -123,13 +123,23 @@
           "src": "images/amplifyit/beats-headphones-shadow.png"
         }
       ],
+      "client": "Verizon",
       "id": "amplifyit",
       "overview": "The in-store experience showcased the connectivity of the new Samsung Galaxy Tab and Beats headphones. Several audio and visual components needed to be quickly fabricated and programmed for the grand opening of the Verizon Michigan Avenue flagship store.",
       "projectTitlePart1": "AmplifyIt",
       "projectTitlePart2": "In-store Experience",
       "role": "Lead Developer",
-      "solution": "Our team created a custom sampler app and a 9-channel mixing board guests used to personalize their mixes. Layering samples and adjusting levels altered the playback of musician videos on a massive 9-screen display. Once finished, mixes were shared to an online playlist.",
-      "title": "AmplifyIt In-store Experience"
+      "solution": "Our team created a custom sampler app and a 9-channel mixing board guests used to personalize their mixes. Layering samples and adjusting levels altered the playback of musician videos on a massive 9-screen display. Once finished, mixes were shared to an online playlist."
+    },
+    {
+      "assets": [],
+      "client": "Samsung",
+      "id": "samsung",
+      "overview": "Samsung installed 65&Prime; touchscreen kiosks at several US airports to promote the Galaxy&rsquo;s NFC capabilities. Travelers could browse an ever-changing content library and download selections to their devices.",
+      "projectTitlePart1": "Galaxy",
+      "projectTitlePart2": "Share To Go Kiosk",
+      "role": "Lead Developer",
+      "solution": "Working with a project team split between Chicago and Austin, I developed software to drive the graphics-intense interface, stream videos, and easily facilitate the NFC transfer between the kiosk and users&rsquo; phones."
     }
   ]
 }

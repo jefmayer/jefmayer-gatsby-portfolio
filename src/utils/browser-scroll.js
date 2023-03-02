@@ -1,5 +1,4 @@
 const disableScroll = () => {
-  // console.log('disableScroll');
   const html = document.querySelector('html');
   const sectionLoader = document.querySelector('.section-loader-animation');
   html.classList.add('noscroll');
@@ -10,12 +9,22 @@ const disableScroll = () => {
 };
 
 const enableScroll = () => {
-  // console.log('enableScroll');
   const html = document.querySelector('html');
   const sectionLoader = document.querySelector('.section-loader-animation');
   html.classList.remove('noscroll');
   sectionLoader.classList.remove('animate-in');
   sectionLoader.classList.remove('animate-loop');
+};
+
+const getSceneOffsetPos = (sceneName) => (
+  document.querySelector(`.project-details-${sceneName}`).offsetTop - (window.innerHeight - document.querySelector(`.project-details-${sceneName}`).offsetHeight)
+);
+
+const scrollToPosition = (pos) => {
+  window.scrollTo({
+    top: pos,
+    behavior: 'smooth',
+  });
 };
 
 let observer = null;
@@ -25,43 +34,25 @@ const getScrollObserver = () => (
 );
 
 const initScrollObserver = (options) => {
-  const {
-    onUpdate,
-  } = options;
-
-  /* const getSectionName = (className) => {
-    let section = '';
-    data.forEach((item) => {
-      const { id } = item;
-      if (className.indexOf(id) !== -1) {
-        section = id;
-      }
-    });
-    return section;
-  }; */
-
+  const { onUpdate } = options;
+  const observerOptions = { threshold: 0.5 };
   const observerHandler = (entries) => {
     entries.forEach((entry) => {
       if (onUpdate) {
         const { target } = entry;
         const { className } = target;
         onUpdate(className, entry.isIntersecting);
-        // const id = getSectionName(className);
-        // onUpdate(id, entry.isIntersecting);
       }
     });
   };
-
-  const observerOptions = {
-    threshold: 0.5,
-  };
-
   observer = new IntersectionObserver(observerHandler, observerOptions);
 };
 
 export {
   disableScroll,
   enableScroll,
+  getSceneOffsetPos,
   getScrollObserver,
   initScrollObserver,
+  scrollToPosition,
 };

@@ -5,13 +5,13 @@ import { TimelineLite } from 'gsap';
 import { getImageDataById } from '../../utils/section-utils';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
+import ProjectDetails from './project-details';
 import SiteImage from '../site-image';
 
 class AmplifyIt extends Component {
   constructor(props) {
     super(props);
     this.animate = this.animate.bind(this);
-    this.triggerElement = '.project-animation-amplifyit';
     this.animationRef = React.createRef();
     this.initAnimate = false;
   }
@@ -23,7 +23,9 @@ class AmplifyIt extends Component {
   }
 
   animate() {
-    const { triggerElement } = this;
+    const { data } = this.props;
+    const { id } = data;
+    const triggerElement = `.project-animation-${id}`;
     const controller = getScrollMagicController();
     const timelines = {
       elements: new TimelineLite()
@@ -78,6 +80,7 @@ class AmplifyIt extends Component {
       data,
     } = this.props;
     const {
+      id,
       overview,
       projectTitlePart1,
       projectTitlePart2,
@@ -89,7 +92,7 @@ class AmplifyIt extends Component {
     }
     return (
       <>
-        <section className="project-animation project-animation-amplifyit" ref={this.animationRef}>
+        <section className={`project-animation project-animation-${id}`} ref={this.animationRef}>
           <div className="fixed-bg" />
           <div className="section-top-indicator" />
           <div className="section-content">
@@ -154,28 +157,13 @@ class AmplifyIt extends Component {
             </div>
           </div>
         </section>
-        <section className="project-details project-details-amplifyit">
-          <div className="project-details-inner">
-            <div className="project-title">
-              <div className="project-logo verizon-logo" />
-              <h2 className="heading-lg">
-                <strong>
-                  {projectTitlePart1}
-                  &nbsp;
-                </strong>
-                {projectTitlePart2}
-              </h2>
-            </div>
-            <div className="project-overview">
-              <h3 className="heading-sm">Overview</h3>
-              <p className="body-regular">{overview}</p>
-            </div>
-            <div className="project-solution">
-              <h3 className="heading-sm">Solution</h3>
-              <p className="body-regular">{solution}</p>
-            </div>
-          </div>
-        </section>
+        <ProjectDetails
+          id={id}
+          overview={overview}
+          projectTitlePart1={projectTitlePart1}
+          projectTitlePart2={projectTitlePart2}
+          solution={solution}
+        />
       </>
     );
   }
@@ -183,7 +171,13 @@ class AmplifyIt extends Component {
 
 AmplifyIt.propTypes = {
   assetPreloadComplete: PropTypes.bool.isRequired,
-  data: PropTypes.shape(),
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    projectTitlePart1: PropTypes.string.isRequired,
+    projectTitlePart2: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+    solution: PropTypes.string.isRequired,
+  }),
 };
 
 export default AmplifyIt;

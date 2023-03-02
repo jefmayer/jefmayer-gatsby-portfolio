@@ -19,8 +19,7 @@ class Intro extends Component {
     this.initAnimate = false;
     this.scrollIndicatorSelector = '';
     this.introBordersStyle = {};
-    this.body = document.querySelector('body');
-    this.body.classList.add('site-loading');
+    document.body.classList.add('site-loading');
   }
 
   componentDidMount() {
@@ -34,13 +33,13 @@ class Intro extends Component {
     // Update DOM, run once
     setTimeout(() => {
       this.introBordersStyle = {};
-      this.body.classList.remove('site-loading');
-      this.body.classList.add('site-loaded');
+      document.body.classList.remove('site-loading');
+      document.body.classList.add('site-loaded');
       this.scrollIndicatorSelector = 'animate-in';
       this.forceUpdate();
     }, 1000);
     setTimeout(() => {
-      this.body.classList.remove('site-loaded');
+      document.body.classList.remove('site-loaded');
       this.scrollIndicatorSelector = 'animate-in animate-loop';
       this.forceUpdate();
       this.animate();
