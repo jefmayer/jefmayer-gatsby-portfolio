@@ -50,7 +50,9 @@ const getNextAssetInQueue = () => {
 const removeSectionEventHandlers = (assets) => {
   assets.forEach((asset) => {
     const { element } = asset;
-    element.removeEventListener('load', update); /* eslint-disable-line no-use-before-define */
+    if (element) {
+      element.removeEventListener('load', update); /* eslint-disable-line no-use-before-define */
+    }
   });
 };
 
@@ -103,7 +105,6 @@ const onLoadComplete = () => {
   updateLoaderData({ isLoadComplete: true });
   if (callbacks.onLoadComplete) {
     callbacks.onLoadComplete();
-    // addSectionAnimations();
   }
 };
 

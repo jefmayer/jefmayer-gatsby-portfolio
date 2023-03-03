@@ -132,7 +132,104 @@
       "solution": "Our team created a custom sampler app and a 9-channel mixing board guests used to personalize their mixes. Layering samples and adjusting levels altered the playback of musician videos on a massive 9-screen display. Once finished, mixes were shared to an online playlist."
     },
     {
-      "assets": [],
+      "assets": [
+        {
+          "alt": "",
+          "css": "",
+          "id": "kiosk-left",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-left.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-default",
+          "id": "kiosk-left-ux-default",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-left-ux-default.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-bg",
+          "id": "kiosk-left-ux-bg",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-left-ux-bg.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-ui",
+          "id": "kiosk-left-ux-ui",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-left-ux-ui.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-shadow",
+          "id": "kiosk-left-shadow",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-left-shadow.png"
+        },
+        {
+          "alt": "",
+          "css": "",
+          "id": "kiosk-right",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-default",
+          "id": "kiosk-right-ux-default",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-ux-default.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-bg",
+          "id": "kiosk-right-ux-bg",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-ux-bg.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-ui-1",
+          "id": "kiosk-right-ux-ui-1",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-ux-ui-1.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-ui-2",
+          "id": "kiosk-right-ux-ui-2",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-ux-ui-2.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-ux kiosk-ux-ui-3",
+          "id": "kiosk-right-ux-ui-3",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-ux-ui-3.png"
+        },
+        {
+          "alt": "",
+          "css": "kiosk-shadow",
+          "id": "kiosk-right-shadow",
+          "hiresSrc": "",
+          "preload": false,
+          "src": "images/samsung/kiosk-right-shadow.png"
+        }
+      ],
       "client": "Samsung",
       "id": "samsung",
       "overview": "Samsung installed 65&Prime; touchscreen kiosks at several US airports to promote the Galaxy&rsquo;s NFC capabilities. Travelers could browse an ever-changing content library and download selections to their devices.",

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ScrollMagic from 'scrollmagic';
 import { TimelineLite } from 'gsap';
-// import { getImageDataById } from '../../utils/section-utils';
+import { getImageDataById } from '../../utils/section-utils';
 import { getScrollMagicController } from '../../utils/scroll-magic';
 import { getScrollObserver } from '../../utils/browser-scroll';
 import ProjectDetails from './project-details';
-// import SiteImage from '../site-image';
+import SiteImage from '../site-image';
 
 class Samsung extends Component {
   constructor(props) {
@@ -86,47 +86,51 @@ class Samsung extends Component {
               <div className="kiosks">
                 <div className="kiosk-left-wrapper">
                   <div className="kiosk">
-                    <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-left.png" data-alt="" />
+                    <SiteImage
+                      data={getImageDataById('kiosk-left', data)}
+                    />
                     <div className="kiosk-ux-wrapper">
-                      <div className="kiosk-ux kiosk-ux-default">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-left-ux-default.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-bg">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-left-ux-bg.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-ui">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-left-ux-ui.png" data-alt="" />
-                      </div>
+                      <SiteImage
+                        data={getImageDataById('kiosk-left-ux-default', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-left-ux-bg', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-left-ux-ui', data)}
+                      />
                     </div>
                   </div>
-                  <div className="kiosk-shadow">
-                    <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-left-shadow.png" data-alt="" />
-                  </div>
+                  <SiteImage
+                    data={getImageDataById('kiosk-left-shadow', data)}
+                  />
                 </div>
                 <div className="kiosk-right-wrapper">
                   <div className="kiosk">
-                    <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right.png" data-alt="" />
+                    <SiteImage
+                      data={getImageDataById('kiosk-right', data)}
+                    />
                     <div className="kiosk-ux-wrapper">
-                      <div className="kiosk-ux kiosk-ux-default">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-ux-default.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-bg">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-ux-bg.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-ui-1">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-ux-ui-1.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-ui-2">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-ux-ui-2.png" data-alt="" />
-                      </div>
-                      <div className="kiosk-ux kiosk-ux-ui-3">
-                        <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-ux-ui-3.png" data-alt="" />
-                      </div>
+                      <SiteImage
+                        data={getImageDataById('kiosk-right-ux-default', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-right-ux-bg', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-right-ux-ui-1', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-right-ux-ui-2', data)}
+                      />
+                      <SiteImage
+                        data={getImageDataById('kiosk-right-ux-ui-3', data)}
+                      />
                     </div>
                   </div>
-                  <div className="kiosk-shadow">
-                    <div className="add-site-img" data-section="samsung" data-src="images/samsung/kiosk-right-shadow.png" data-alt="" />
-                  </div>
+                  <SiteImage
+                    data={getImageDataById('kiosk-right-shadow', data)}
+                  />
                 </div>
               </div>
             </div>
