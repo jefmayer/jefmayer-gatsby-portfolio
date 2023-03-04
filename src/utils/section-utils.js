@@ -3,6 +3,10 @@ const getImageDataById = (id, data) => {
   return assets.find((asset) => asset.id === id);
 };
 
+const getSectionById = (id, data) => (
+  data.find((section) => section.id === id)
+);
+
 const getSectionIdFromClassNames = (classNames) => {
   const key = 'project-animation-';
   let sectionId = '';
@@ -17,5 +21,6 @@ const getSectionIdFromClassNames = (classNames) => {
 
 export {
   getImageDataById,
+  getSectionById,
   getSectionIdFromClassNames,
 };

@@ -6,7 +6,10 @@ import {
   fetchSiteData,
   setActiveSection,
 } from '../actions';
-import { getSectionIdFromClassNames } from '../utils/section-utils';
+import {
+  getSectionById,
+  getSectionIdFromClassNames,
+} from '../utils/section-utils';
 import { initScrollObserver } from '../utils/browser-scroll';
 import { initScrollMagicController } from '../utils/scroll-magic';
 import AmplifyIt from '../components/sections/amplifyit';
@@ -22,7 +25,6 @@ class IndexPage extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = this.props;
-    this.getSectionById = this.getSectionById.bind(this);
     this.sectionComponentMap = [
       {
         id: 'amplifyit',
@@ -52,11 +54,6 @@ class IndexPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchSiteData('portfolio-data.json'));
-  }
-
-  getSectionById(id) {
-    const { data } = this.props;
-    return data.find((section) => section.id === id);
   }
 
   render() {
@@ -104,7 +101,8 @@ class IndexPage extends Component {
                 <SectionComponent
                   assetLoadComplete={assetLoadComplete}
                   assetPreloadComplete={assetPreloadComplete}
-                  data={this.getSectionById(id)}
+                  data={getSectionById(id, data)}
+                  key={id}
                 />
               );
             })}

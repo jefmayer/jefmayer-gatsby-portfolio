@@ -11,15 +11,19 @@ import {
   setActiveSection,
   showMenu,
 } from '../actions';
+import './scss/header.scss';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.updateMenuState = this.updateMenuState.bind(this);
     this.onNavClick = this.onNavClick.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
     this.removeActiveClass = this.removeActiveClass.bind(this);
     this.addActiveClass = this.addActiveClass.bind(this);
     this.onBodyClickHandler = this.onBodyClickHandler.bind(this);
+    this.getNavHighlightPos = this.getNavHighlightPos.bind(this);
     this.navHighlightRef = React.createRef();
     this.menuActiveClass = 'nav-menu-open';
     this.menuAnimatelass = 'nav-menu-animate';
@@ -32,26 +36,46 @@ class Header extends Component {
     dispatch(setActiveSection(id));
   }
 
+  onMouseOver(id) {
+    this.navHighlightRef.current.style.top = this.getNavHighlightPos(id);
+    // Temporarily "remove" active state from active nav button
+  }
+
+  onMouseLeave() {
+    this.navHighlightRef.current.style.top = this.getNavHighlightPos();
+    // Add active state back
+  }
+
   onBodyClickHandler(event) {
     if (!event.target.closest('.site-nav')) {
       this.updateMenuState();
     }
   }
 
+  getNavHighlightPos(id) {
+    const { activeSectionId } = this.props;
+    let btnId = id;
+    if (!btnId) {
+      btnId = activeSectionId;
+    }
+    const btn = document.querySelector(`.nav-menu [data-scene-name="${btnId}"]`);
+    if (!btn) {
+      return 0;
+    }
+    return `${btn.offsetTop}px`;
+  }
+
   updateMenuState() {
     const { dispatch, isMenuOpen } = this.props;
     if (!isMenuOpen) {
       dispatch(showMenu());
-      this.addActiveClass();
-      document.body.addEventListener('click', this.onBodyClickHandler);
     } else {
       dispatch(hideMenu());
-      this.removeActiveClass();
-      document.body.removeEventListener('click', this.onBodyClickHandler);
     }
   }
 
   removeActiveClass() {
+    document.body.removeEventListener('click', this.onBodyClickHandler);
     document.body.classList.remove(this.menuAnimatelass);
     setTimeout(() => {
       document.body.classList.remove(this.menuActiveClass);
@@ -59,6 +83,7 @@ class Header extends Component {
   }
 
   addActiveClass() {
+    document.body.addEventListener('click', this.onBodyClickHandler);
     document.body.classList.add(this.menuActiveClass);
     setTimeout(() => {
       document.body.classList.add(this.menuAnimatelass);
@@ -69,13 +94,24 @@ class Header extends Component {
     const {
       activeSectionId,
       data,
+      isMenuOpen,
     } = this.props;
+    // Toggle menu display
+    if (isMenuOpen) {
+      this.addActiveClass();
+    } else {
+      this.removeActiveClass();
+    }
     return (
       <header className="header">
         <div className="header-logo" />
         <nav className="site-nav">
           <div className="nav-menu">
-            <div className="nav-highlight" ref={this.navHighlightRef} />
+            <div
+              className="nav-highlight active"
+              ref={this.navHighlightRef}
+              style={{ top: this.getNavHighlightPos() }}
+            />
             <div className="nav-menu-inner">
               {data.map((section) => {
                 const {
@@ -87,7 +123,16 @@ class Header extends Component {
                 } = section;
                 return (
                   <React.Fragment key={id}>
-                    <button type="button" className={`scene-navigation-btn ${activeSectionId === id ? 'active' : ''}`} role="menuitem" data-scene-name={id} onClick={(e) => this.onNavClick(id, e)}>
+                    <button
+                      type="button"
+                      className={`scene-navigation-btn ${activeSectionId === id ? 'active' : ''}`}
+                      role="menuitem"
+                      data-scene-name={id}
+                      onClick={(e) => this.onNavClick(id, e)}
+                      onMouseOver={(e) => this.onMouseOver(id, e)}
+                      onFocus={(e) => this.onMouseOver(id, e)}
+                      onMouseLeave={this.onMouseLeave}
+                    >
                       <span className="heading-md">{client}</span>
                       <span className="body-regular">
                         {projectTitlePart1}
